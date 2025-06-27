@@ -8,8 +8,8 @@ You’re welcome to borrow, learn from, or remix anything you see here.
 
 I use this space for:
 - 🛠 Guides for personal projects I’ve tackled
-- 🔍 Notes from CTFs and security exercises (mostly TryHackMe)
-- 🧠 Stuff I wanted to remember and thought you might too
+- 🔍 Notes from CTFs and security exercises (mostly TryHackMe) 
+- 🧠 Stuff I wanted to remember and thought you might too 
 
 Enjoy the docs. Stay curious.
 

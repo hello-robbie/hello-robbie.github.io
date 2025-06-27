@@ -52,6 +52,26 @@
                   <li class="toctree-l1"><a class="reference internal" href="../honeypots/">Why I Use Honeypots</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Web App Default Paths</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#node-red">🧱 Node-RED</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#flask-werkzeug-apps">🔥 Flask / Werkzeug Apps</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phpmyadmin-mysql-admin">🐘 phpMyAdmin / MySQL Admin</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#jenkins">🧪 Jenkins</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#grafana">📊 Grafana</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#kibana">📈 Kibana</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#prometheus">📉 Prometheus</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#industrial-ot-interfaces">🏭 Industrial / OT Interfaces</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#bonus-tip-auto-discovery-tools">🎁 Bonus Tip: Auto-Discovery Tools</a>
+    </li>
+    </ul>
                   </li>
               </ul>
       </div>
@@ -78,94 +98,175 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <pre><code class="language-markdown"># 🧭 Web App Default Paths Cheat Sheet
+                <h1 id="web-app-default-paths-cheat-sheet">🧭 Web App Default Paths Cheat Sheet</h1>
+<p>When scanning a network or analyzing a web server, knowing the default paths of popular tools can save you a ton of time. Here’s a field-ready cheat sheet for quickly identifying web apps based on their common routes.</p>
+<hr />
+<h2 id="node-red">🧱 Node-RED</h2>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Editor UI</td>
+<td><code>/</code> or <code>/red</code></td>
+</tr>
+<tr>
+<td>Dashboard UI</td>
+<td><code>/ui</code></td>
+</tr>
+<tr>
+<td>Flow JSON API</td>
+<td><code>/flows</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="flask-werkzeug-apps">🔥 Flask / Werkzeug Apps</h2>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Path Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Admin/Login</td>
+<td><code>/login</code>, <code>/admin</code></td>
+</tr>
+<tr>
+<td>API Entry</td>
+<td><code>/api/</code>, <code>/api/status</code>, <code>/api/gate</code></td>
+</tr>
+<tr>
+<td>Flask Debug Panel</td>
+<td><em>Only if misconfigured</em> — look for <code>/console</code> in stack traces</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="phpmyadmin-mysql-admin">🐘 phpMyAdmin / MySQL Admin</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Common Paths</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>phpMyAdmin</td>
+<td><code>/phpmyadmin</code>, <code>/pma</code>, <code>/mysqladmin</code>, <code>/dbadmin</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="jenkins">🧪 Jenkins</h2>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dashboard</td>
+<td><code>/</code>, <code>/jenkins</code>, <code>/dashboard</code></td>
+</tr>
+<tr>
+<td>Script Console</td>
+<td><code>/script</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="grafana">📊 Grafana</h2>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Login/Dashboard</td>
+<td><code>/login</code>, <code>/d/</code>, <code>/dashboard/</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="kibana">📈 Kibana</h2>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dashboard</td>
+<td><code>/app/kibana</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="prometheus">📉 Prometheus</h2>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web UI</td>
+<td><code>/graph</code>, <code>/metrics</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="industrial-ot-interfaces">🏭 Industrial / OT Interfaces</h2>
+<p>These should never be exposed to the public internet, but if you encounter them:</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Default Port</th>
+<th>Path Hints</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web HMI</td>
+<td>varies</td>
+<td><code>/</code>, <code>/ui</code>, <code>/hmi</code>, <code>/dashboard</code></td>
+</tr>
+<tr>
+<td>PLC Admin UI</td>
+<td>80, 443</td>
+<td><code>/plc</code>, <code>/admin</code>, <code>/setup</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="bonus-tip-auto-discovery-tools">🎁 Bonus Tip: Auto-Discovery Tools</h2>
+<p>If guessing doesn't work, try some recon tools:</p>
+<pre><code>whatweb http://&lt;ip&gt;:&lt;port&gt;
+````
 
-When scanning a network or analyzing a web server, knowing the default paths of popular tools can save you a ton of time. Here’s a field-ready cheat sheet for quickly identifying web apps based on their common routes.
+or
 
----
-
-## 🧱 Node-RED
-
-| Purpose       | Path        |
-|---------------|-------------|
-| Editor UI     | `/` or `/red` |
-| Dashboard UI  | `/ui`       |
-| Flow JSON API | `/flows`    |
-
----
-
-## 🔥 Flask / Werkzeug Apps
-
-| Purpose        | Path Examples                              |
-|----------------|---------------------------------------------|
-| Admin/Login    | `/login`, `/admin`                         |
-| API Entry      | `/api/`, `/api/status`, `/api/gate`        |
-| Flask Debug Panel | _Only if misconfigured_ — look for `/console` in stack traces |
-
----
-
-## 🐘 phpMyAdmin / MySQL Admin
-
-| Tool        | Common Paths                                 |
-|-------------|-----------------------------------------------|
-| phpMyAdmin  | `/phpmyadmin`, `/pma`, `/mysqladmin`, `/dbadmin` |
-
----
-
-## 🧪 Jenkins
-
-| Purpose        | Path                |
-|----------------|---------------------|
-| Dashboard      | `/`, `/jenkins`, `/dashboard` |
-| Script Console | `/script`           |
-
----
-
-## 📊 Grafana
-
-| Purpose         | Path                      |
-|------------------|---------------------------|
-| Login/Dashboard  | `/login`, `/d/`, `/dashboard/` |
-
----
-
-## 📈 Kibana
-
-| Purpose   | Path         |
-|-----------|--------------|
-| Dashboard | `/app/kibana` |
-
----
-
-## 📉 Prometheus
-
-| Purpose  | Path             |
-|----------|------------------|
-| Web UI   | `/graph`, `/metrics` |
-
----
-
-## 🏭 Industrial / OT Interfaces
-
-These should never be exposed to the public internet, but if you encounter them:
-
-| Tool            | Default Port | Path Hints                     |
-|-----------------|---------------|--------------------------------|
-| Web HMI         | varies        | `/`, `/ui`, `/hmi`, `/dashboard` |
-| PLC Admin UI    | 80, 443       | `/plc`, `/admin`, `/setup`     |
-
----
-
-## 🎁 Bonus Tip: Auto-Discovery Tools
-
-If guessing doesn't work, try some recon tools:
-
-```
-whatweb http://&lt;ip&gt;:&lt;port&gt;
 </code></pre>
-<p>or</p>
-<pre><code>gobuster dir -u http://&lt;ip&gt;:&lt;port&gt; -w /usr/share/wordlists/dirb/common.txt
-</code></pre>
+<p>gobuster dir -u http://<ip>:<port> -w /usr/share/wordlists/dirb/common.txt
+```</p>
 <p>These tools can brute-force or fingerprint the server to uncover hidden or non-standard paths.</p>
 <hr />
 <p>Stay curious, and don’t forget to double-check if what you find <strong>should</strong> be exposed at all.</p>

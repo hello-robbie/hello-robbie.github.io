@@ -1,4 +1,3 @@
-````markdown
 # 🧭 Web App Default Paths Cheat Sheet
 
 When scanning a network or analyzing a web server, knowing the default paths of popular tools can save you a ton of time. Here’s a field-ready cheat sheet for quickly identifying web apps based on their common routes.
