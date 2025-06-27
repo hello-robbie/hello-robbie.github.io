@@ -1,7 +1,8 @@
 site_name: Hello Robbie
 site_url: https://hello-robbie.github.io/
+
 theme:
-  name: cinder
+  name: readthedocs
 
 nav:
   - Home: index.md

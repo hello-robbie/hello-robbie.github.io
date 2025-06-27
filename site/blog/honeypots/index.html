@@ -1,169 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="writer-html5" lang="en" >
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    
-    <link rel="canonical" href="https://hello-robbie.github.io/blog/honeypots/">
-    <link rel="shortcut icon" href="../../img/favicon.ico">
-
-    
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/blog/honeypots/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
     <title>Why I Use Honeypots - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
-    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
-    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
-    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
-    <link href="../../css/base.min.css" rel="stylesheet">
-    <link href="../../css/cinder.min.css" rel="stylesheet">
-
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Why I Use Honeypots";
+        var mkdocs_page_input_path = "blog/honeypots.md";
+        var mkdocs_page_url = "/blog/honeypots/";
+      </script>
     
-        
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
-        
-    
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-        <![endif]-->
-
-    
-
-     
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
-<body>
+<body class="wy-body-for-nav" role="document">
 
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
-
-        <!-- Collapsed navigation -->
-        <div class="navbar-header">
-            <!-- Expander button -->
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            
-
-            <!-- Main title -->
-
-            
-              <a class="navbar-brand" href="../..">Hello Robbie</a>
-            
-        </div>
-
-        <!-- Expanded navigation -->
-        <div class="navbar-collapse collapse">
-                <!-- Main navigation -->
-                <ul class="nav navbar-nav">
-                
-                
-                    <li >
-                        <a href="../..">Home</a>
-                    </li>
-                
-                
-                
-                    <li >
-                        <a href="../../resume/">Resume</a>
-                    </li>
-                
-                
-                
-                    <li class="dropdown active">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                        
-                            
-<li class="active">
-    <a href="./">Why I Use Honeypots</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../webpaths/">Web App Default Paths</a>
-</li>
-
-                        
-                        </ul>
-                    </li>
-                
-                
-                </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
-                            <i class="fas fa-search"></i> Search
-                        </a>
-                    </li>
-                    <li >
-                        <a rel="prev" href="../../resume/">
-                            <i class="fas fa-arrow-left"></i> Previous
-                        </a>
-                    </li>
-                    <li >
-                        <a rel="next" href="../webpaths/">
-                            Next <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </li>
-            </ul>
-        </div>
-    </div>
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
 </div>
+      </div>
 
-    <div class="container">
-        
-        
-        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="first-level active"><a href="#why-i-like-internet-storm-center-dshield-and-how-you-can-help-too">Why I Like Internet Storm Center &amp; DShield (and How You Can Help Too)</a></li>
-        <li class="first-level "><a href="#comprehensive-guide-setting-up-a-dshield-honeypot-on-aws-ubuntu-2204-lts">Comprehensive Guide: Setting Up a DShield Honeypot on AWS (Ubuntu 22.04 LTS)</a></li>
-            <li class="second-level"><a href="#what-is-dshield">What is DShield?</a></li>
-                
-            <li class="second-level"><a href="#requirements">Requirements</a></li>
-                
-            <li class="second-level"><a href="#step-1-launch-ec2-instance">Step 1: Launch EC2 Instance</a></li>
-                
-            <li class="second-level"><a href="#step-2-connect-update">Step 2: Connect &amp; Update</a></li>
-                
-            <li class="second-level"><a href="#step-3-create-honeypot-user-harden-sudo">Step 3: Create Honeypot User &amp; Harden Sudo</a></li>
-                
-            <li class="second-level"><a href="#step-4-install-dependencies">Step 4: Install Dependencies</a></li>
-                
-            <li class="second-level"><a href="#step-5-install-dshield">Step 5: Install DShield</a></li>
-                
-                <li class="third-level"><a href="#during-setup">During setup:</a></li>
-            <li class="second-level"><a href="#step-6-confirm-ssh-on-port-12222">Step 6: Confirm SSH on Port 12222</a></li>
-                
-            <li class="second-level"><a href="#step-7-configure-security-group">Step 7: Configure Security Group</a></li>
-                
-                <li class="third-level"><a href="#inbound-rules">Inbound Rules:</a></li>
-                <li class="third-level"><a href="#outbound-rules">Outbound Rules:</a></li>
-            <li class="second-level"><a href="#step-8-verify-operation">Step 8: Verify Operation</a></li>
-                
-            <li class="second-level"><a href="#step-9-monthly-maintenance">Step 9: Monthly Maintenance</a></li>
-                
-            <li class="second-level"><a href="#step-10-view-logs-on-dshield">Step 10: View Logs on DShield</a></li>
-                
-        <li class="first-level "><a href="#youre-done">You're Done!</a></li>
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Why I Use Honeypots</a>
+    <ul class="current">
     </ul>
-</div></div>
-        <div class="col-md-9" role="main">
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
 
-<h2 id="why-i-like-internet-storm-center-dshield-and-how-you-can-help-too">Why I Like Internet Storm Center &amp; DShield (and How You Can Help Too)</h2>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Blog</li>
+      <li class="breadcrumb-item active">Why I Use Honeypots</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="why-i-like-internet-storm-center-dshield-and-how-you-can-help-too">Why I Like Internet Storm Center &amp; DShield (and How You Can Help Too)</h2>
 <p>I'm a big fan of the <strong>SANS Internet Storm Center (ISC)</strong> and its community-driven mission to track global internet threats. They publish daily handler diaries, offer practical incident response tools, and provide a platform where people like you and me can contribute valuable data. One of the most impactful ways to do that is by running a <strong>DShield Honeypot</strong>.</p>
 <p>DShield is a <strong>low-interaction honeypot</strong> that collects SSH, Telnet, and HTTP scan data. It’s lightweight, informative, and most importantly, it shares that telemetry with ISC to help map emerging threats. Setting one up on AWS is a great weekend project, especially if you're into networking, cloud, or cybersecurity.</p>
 <p>Below is a step-by-step guide I followed and adapted from <a href="https://matthewob5.medium.com/setting-up-a-dshield-honeypot-in-aws-2ca5f8a29d9">Matthew OB's post</a>.</p>
@@ -334,105 +251,52 @@ cd ~/install/dshield/bin
 <hr />
 <h2 id="youre-done">You're Done!</h2>
 <p>Your honeypot is now online and feeding data into ISC’s global threat map. You've helped contribute to public good in the infosec community and learned a lot in the process. 👏</p>
-<p>Check out <a href="https://matthewob5.medium.com/setting-up-a-dshield-honeypot-in-aws-2ca5f8a29d9">Matthew OB’s original guide</a> for visuals or troubleshooting.</p></div>
-        
-        
+<p>Check out <a href="https://matthewob5.medium.com/setting-up-a-dshield-honeypot-in-aws-2ca5f8a29d9">Matthew OB’s original guide</a> for visuals or troubleshooting.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../resume/" class="btn btn-neutral float-left" title="Resume"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../webpaths/" class="btn btn-neutral float-right" title="Web App Default Paths">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
-    
-      <footer class="col-md-12 text-center">
-          
-          
-            <hr>
-            <p>
-            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
-            </p>
-          
+  <hr/>
 
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
           
-          
-      </footer>
-    
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="../../js/bootstrap-3.0.3.min.js"></script>
-
-    
-    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
-        
-    <script>hljs.initHighlightingOnLoad();</script>
-    
-
-    <script>var base_url = "../.."</script>
-    
-    <script src="../../js/base.js"></script>
-    <script src="../../search/main.js"></script>
-
-    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-            </div>
-            <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
         </div>
-    </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../resume/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../webpaths/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
-    </body>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
 
+</body>
 </html>
