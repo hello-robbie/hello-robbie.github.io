@@ -85,173 +85,289 @@
 <p>DShield is a <strong>low-interaction honeypot</strong> that collects SSH, Telnet, and HTTP scan data. It’s lightweight, informative, and most importantly, it shares that telemetry with ISC to help map emerging threats. Setting one up on AWS is a great weekend project, especially if you're into networking, cloud, or cybersecurity.</p>
 <p>Below is a step-by-step guide I followed and adapted from <a href="https://matthewob5.medium.com/setting-up-a-dshield-honeypot-in-aws-2ca5f8a29d9">Matthew OB's post</a>.</p>
 <hr />
-<h2 id="comprehensive-guide-setting-up-a-dshield-honeypot-on-aws-ubuntu-2204-lts">Comprehensive Guide: Setting Up a DShield Honeypot on AWS (Ubuntu 22.04 LTS)</h2>
-<h3 id="what-is-dshield">What is DShield?</h3>
-<p><strong>DShield</strong> is a honeypot system built by ISC to collect logs from distributed sensors. It:</p>
-<ul>
-<li>Captures SSH/Telnet login attempts (via Cowrie)</li>
-<li>Records HTTP requests and firewall activity</li>
-<li>Sends anonymized logs to ISC</li>
-</ul>
-<h3 id="requirements">Requirements</h3>
+<h1 id="comprehensive-guide-setting-up-a-dshield-honeypot-on-aws-ubuntu-2204-lts">Comprehensive Guide: Setting Up a DShield Honeypot on AWS (Ubuntu 22.04 LTS)</h1>
+<hr />
+<h2 id="1-introduction">1. Introduction</h2>
+<p>This guide walks through setting up a <strong>DShield low-interaction honeypot</strong> using Ubuntu Server 22.04 LTS on an AWS EC2 instance. It includes practical steps and insights from:<br />
+https://matthewob5.medium.com/setting-up-a-dshield-honeypot-in-aws-2ca5f8a29d9</p>
+<hr />
+<h2 id="2-what-is-dshield">2. What is DShield?</h2>
+<p><strong>DShield</strong> is a low-interaction honeypot created by the SANS Internet Storm Center (ISC). It:
+- Collects SSH and Telnet login attempts (via Cowrie)
+- Captures HTTP requests
+- Logs firewall activity
+- Sends logs to ISC for global correlation</p>
+<hr />
+<h2 id="3-requirements">3. Requirements</h2>
 <ul>
 <li>AWS Free Tier account  </li>
-<li>DShield account: <a href="https://secure.dshield.org/myaccount.html">https://secure.dshield.org/myaccount.html</a>  </li>
+<li>DShield account: https://secure.dshield.org/myaccount.html  </li>
 <li>SSH key pair  </li>
-<li>Basic Linux/terminal experience</li>
+<li>Familiarity with Linux terminal</li>
 </ul>
-<p><strong>Tips:</strong></p>
-<ul>
-<li>Enable MFA on AWS</li>
-<li>Use IAM users instead of root</li>
-<li>Set Free Tier alerts to avoid surprises</li>
-</ul>
-<h3 id="step-1-launch-ec2-instance">Step 1: Launch EC2 Instance</h3>
+<p><strong>Tips:</strong>
+- Enable MFA on AWS accounts
+- Use IAM users, not root
+- Set Free Tier alerts</p>
+<hr />
+<h2 id="4-launch-ec2-instance">4. Launch EC2 Instance</h2>
+<p>Use <strong>Ubuntu Server 22.04 LTS</strong>. Do <em>not</em> use 24.04, there are differences in 24.04 that break DShield.</p>
 <ol>
-<li>Go to EC2 → Launch Instance  </li>
+<li>Go to EC2 &gt; Launch Instance  </li>
 <li>Name: <code>DShieldHoneypot</code>  </li>
-<li>AMI: <strong>Ubuntu Server 22.04 LTS</strong> (not 24.04!)  </li>
-<li>Type: <code>t2.micro</code>  </li>
+<li>AMI: Ubuntu Server 22.04 LTS  </li>
+<li>Instance type: <code>t2.micro</code>  </li>
 <li>Key pair: Use or create <code>.pem</code> file  </li>
 <li>Storage: 25 GB  </li>
-<li>Security Group: Allow SSH (port 22) from <code>YOUR_PUBLIC_IP/32</code></li>
+<li>Security Group:</li>
+<li>Inbound: Allow SSH (port 22) from <strong>Your_Public_IP/32</strong></li>
 </ol>
-<h3 id="step-2-connect-update">Step 2: Connect &amp; Update</h3>
-<pre><code class="language-bash">chmod 400 your-key.pem
+<hr />
+<h2 id="5-ssh-into-ec2-update">5. SSH into EC2 &amp; Update</h2>
+<p>Default SSH Credentials:
+* Username: <code>ubuntu</code>
+* Password: <em>None</em> (login is done via SSH key only - password authentication is disabled by default)</p>
+<p>Use the command below to connect:</p>
+<pre><code>chmod 400 your-key.pem
 ssh -i your-key.pem ubuntu@&lt;EC2_PUBLIC_IP&gt;
-
-sudo apt update &amp;&amp; sudo apt upgrade -y
+</code></pre>
+<p>Use the command below to connect:</p>
+<pre><code>sudo apt update &amp;&amp; sudo apt upgrade -y
 sudo reboot
 </code></pre>
 <p>Reconnect after reboot.</p>
-<h3 id="step-3-create-honeypot-user-harden-sudo">Step 3: Create Honeypot User &amp; Harden Sudo</h3>
-<pre><code class="language-bash">sudo passwd ubuntu
-sudo adduser --disabled-password --gecos &quot;DShield Honeypot&quot; dshield
-sudo visudo /etc/sudoers.d/90-cloud-init-users
+<hr />
+<h2 id="6-create-honeypot-user">6. Create Honeypot User</h2>
+<p>Before tightening <code>sudo</code> permissions, **set a password for the ``user to avoid locking yourself out:</p>
+<pre><code>sudo passwd ubuntu
 </code></pre>
-<p>Change this line:</p>
-<pre><code class="language-text">ubuntu ALL=(ALL) NOPASSWD:ALL
+<p>You'll be prompted to enter and confrm a new password. Save it in a secure location. Then, create a dedicated, non-login user:</p>
+<pre><code>sudo adduser --disabled-password --gecos &quot;DShield Honeypot&quot; dshield
 </code></pre>
-<p>To:</p>
-<pre><code class="language-text">ubuntu ALL=(ALL) ALL
-</code></pre>
-<h3 id="step-4-install-dependencies">Step 4: Install Dependencies</h3>
-<pre><code class="language-bash">sudo apt install python3-pip python2.7 git -y
-curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
-sudo python2.7 get-pip.py
-sudo reboot
-</code></pre>
-<h3 id="step-5-install-dshield">Step 5: Install DShield</h3>
-<pre><code class="language-bash">mkdir ~/install &amp;&amp; cd ~/install
+<p>Lock down sudo access by editing sudoers:</p>
+<p><code>sudo visudo /etc/sudoers.d/90-cloud-init-users</code></p>
+<p>Change:
+<code>ubuntu ALL=(ALL) NOPASSWD:ALL</code></p>
+<p>To:
+<code>ubuntu ALL=(ALL) ALL</code></p>
+<hr />
+<h2 id="7-install-dependencies">7. Install Dependencies</h2>
+<p>Run each command separately to spot issues:</p>
+<p><code>sudo apt install python3-pip python2.7 git -y</code>
+<code>curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py</code>
+<code>sudo python2.7 get-pip.py</code></p>
+<p>Note: <code>python-pip</code> is no longer available - use the pip bootstrap script for Python 2.</p>
+<p>Reboot the server again:
+<code>sudo reboot</code></p>
+<hr />
+<h2 id="8-install-dshield">8. Install DShield</h2>
+<p>Setup the installation environment and run the install script</p>
+<pre><code>mkdir ~/install &amp;&amp; cd ~/install
 git clone https://github.com/DShield-ISC/dshield.git
 cd dshield/bin
 sudo ./install.sh
 </code></pre>
-<h4 id="during-setup">During setup:</h4>
-<ul>
-<li>Accept privacy warnings</li>
-<li>Enable automatic updates</li>
-<li>Enter your DShield email + API key</li>
-<li>Interface: <code>eth0</code></li>
-<li>Admin Port: 12222 (default)</li>
-<li>Local Network: <code>172.16.0.0/12</code></li>
-<li>Ignore FW logs from your public IP</li>
-<li>Accept default SSL values</li>
-<li>Exclude ports: 2222, 2223, 8000</li>
-</ul>
-<h3 id="step-6-confirm-ssh-on-port-12222">Step 6: Confirm SSH on Port 12222</h3>
-<pre><code class="language-bash">sudo ss -tuln | grep 12222
-sudo systemctl restart ssh  # if not open
-sudo ss -tuln | grep 12222
-</code></pre>
-<p>Update your security group to allow TCP 12222 from your IP, then test:</p>
-<pre><code class="language-bash">ssh -p 12222 -i your-key.pem ubuntu@&lt;EC2_PUBLIC_IP&gt;
-</code></pre>
-<p>Once confirmed:</p>
-<pre><code class="language-bash">sudo reboot
-</code></pre>
-<h3 id="step-7-configure-security-group">Step 7: Configure Security Group</h3>
-<h4 id="inbound-rules">Inbound Rules:</h4>
+<p>The installer will walk you through configuration:</p>
+<ol>
+<li>
+<p>Accept risk and privacy notices</p>
+</li>
+<li>
+<p>Choose Automatic Updates</p>
+</li>
+<li>
+<p>Enter your DShield email and API key &gt; Click Verify</p>
+</li>
+<li>
+<p>Select network interface (usually <code>eth0</code>)</p>
+</li>
+<li>
+<p>Configure:</p>
+</li>
+<li>Admin Port: Keep default <code>12222</code> or choose another</li>
+<li>Local Network: Use <code>172.16.0.0/12</code> if this is your only instance or the full VPC CIDR</li>
+<li>
+<p>Additional IPs: Add your public IP</p>
+</li>
+<li>
+<p>Add the same IPs under Ignore FW Log (they won't be logged or redirected)</p>
+</li>
+<li>
+<p>SSL Certificate:</p>
+</li>
+<li>
+<p>Accept default fields: US / Florida / Jacksonville / DShield / Decoy</p>
+</li>
+<li>
+<p>Let it generate a new CA</p>
+</li>
+<li>
+<p>Configure Honeypot Exceptions:</p>
+</li>
+<li>Add same IPs to disable honeypot for (internal testing IPs)</li>
+<li>Add ports <code>2222</code>, <code>2223</code>, and <code>8000</code> to exclude from redirection and logging</li>
+</ol>
+<p><strong>Watch Out:</strong> If you enter incorrect IPs or CIDRs during this step (e.g., mistyping your home IP or setting a wrong subnet), you may block yourself from SSH access on the admin port. If this happens, update the AWS Security Group to temporarily allow access again.</p>
+<p><strong>Watch Out:</strong> The DShield installer modifies /etc/ssh/sshd_config to change the SSH port to 12222. However, this change does not always take effect immediately. Before rebooting:</p>
+<ol>
+<li>
+<p>Run <code>sudo ss -tuln | grep 12222</code> — confirm the port is open.</p>
+</li>
+<li>
+<p>If it’s not open, run:</p>
+</li>
+</ol>
+<p><code>sudo systemctl restart ssh</code>
+<code>sudo ss -tuln | grep 12222</code></p>
+<ol>
+<li>
+<p>Confirm success before continuing.</p>
+</li>
+<li>
+<p>Update the security group attached to the EC2 instance, not just the subnet-level ACLs. The SG must allow TCP 12222 inbound from your IP.</p>
+</li>
+</ol>
+<p>Then, test SSH access from your local machine in a separate terminal:</p>
+<p><code>ssh -p 12222 -i /path/to/your-key.pem ubuntu@&lt;EC2_PUBLIC_IP&gt;</code></p>
+<p>Only proceed with the reboot after confirming that SSH on port 12222 is working.</p>
+<p>Then reboot:
+<code>sudo reboot</code></p>
+<p>--</p>
+<h2 id="9-update-security-group">9. Update Security Group</h2>
+<p>Update your Security Group to expose the honeypot to the internet while restricting management access.</p>
+<p><strong>Recommended Inbound Rules:</strong></p>
 <table>
 <thead>
 <tr>
+<th>Type</th>
+<th>Protocol</th>
 <th>Port Range</th>
-<th>Protocol</th>
 <th>Source</th>
-<th>Purpose</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>12222</td>
+<td>Custom TCP</td>
 <td>TCP</td>
-<td>YOUR_PUBLIC_IP/32</td>
-<td>SSH Management</td>
+<td>12222</td>
+<td><Your_Public_IP>/32</td>
+<td>Allow SSH from home</td>
 </tr>
 <tr>
+<td>Custom TCP</td>
+<td>TCP</td>
 <td>0-12221</td>
-<td>TCP/UDP</td>
 <td>0.0.0.0/0</td>
-<td>Honeypot Listeners</td>
+<td>Expose honeypot ports</td>
 </tr>
 <tr>
+<td>Custom TCP</td>
+<td>TCP</td>
 <td>12223-65535</td>
-<td>TCP/UDP</td>
 <td>0.0.0.0/0</td>
-<td>Honeypot Listeners</td>
+<td>Expose honeypot ports</td>
 </tr>
 <tr>
-<td>All ICMP</td>
+<td>Custom UDP</td>
+<td>UDP</td>
+<td>0-12221</td>
+<td>0.0.0.0/0</td>
+<td>Expose honeypot ports</td>
+</tr>
+<tr>
+<td>Custom UDP</td>
+<td>UDP</td>
+<td>12223-65535</td>
+<td>0.0.0.0/0</td>
+<td>Expose honeypot ports</td>
+</tr>
+<tr>
+<td>All ICMP - IPv4</td>
 <td>ICMP</td>
+<td>All</td>
 <td>0.0.0.0/0</td>
-<td>Ping/Traceroute</td>
+<td>Allow ping/traceroute</td>
+</tr>
+<tr>
+<td>All ICMP - IPv6</td>
+<td>ICMPv6</td>
+<td>All</td>
+<td>::/0</td>
+<td>Allow IPv6 ping</td>
+</tr>
+<tr>
+<td>(Same TCP/UDP)</td>
+<td>TCP/UDP</td>
+<td>All ranges</td>
+<td>::/0</td>
+<td>Matching IPv6 exposure</td>
 </tr>
 </tbody>
 </table>
-<h4 id="outbound-rules">Outbound Rules:</h4>
-<table>
-<thead>
-<tr>
-<th>Port</th>
-<th>Protocol</th>
-<th>Destination</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>All</td>
-<td>All</td>
-<td>0.0.0.0/0</td>
-<td>Allow all traffic</td>
-</tr>
-</tbody>
-</table>
-<p>Make sure the Security Group is associated with the instance, and apply NACLs if needed.</p>
-<h3 id="step-8-verify-operation">Step 8: Verify Operation</h3>
-<pre><code class="language-bash">cd ~/install/dshield/bin
-./status.sh
-</code></pre>
-<p>You should see:</p>
-<pre><code class="language-text">Submitted to DShield: N log(s) sent.
+<p><strong>Outbound Rules:</strong>
+| Type         | Port | Destination | Description        |
+|--------------|------|-------------|--------------------|
+| All traffic  | All  | 0.0.0.0/0   | Allow outbound     |</p>
+<p><strong>Update Inbound ACLs</strong>
+| Rule # | Type        | Protocol | Port Range | Source             | Action |
+|--------|-------------|----------|------------|---------------------|--------|
+| 100    | All traffic | All      | All        | 0.0.0.0/0           | Allow  |
+| 110    | Custom TCP  | TCP (6)  | 12222      | <Your_Public_IP>/32   | Allow  |
+| *      | All traffic | All      | All        | 0.0.0.0/0           | Deny   |</p>
+<p><strong>Update Outbound ACLs</strong>
+| Rule # | Type        | Protocol | Port Range   | Destination         | Action |
+|--------|-------------|----------|--------------|----------------------|--------|
+| 100    | All traffic | All      | All          | 0.0.0.0/0            | Allow  |
+| 110    | Custom TCP  | TCP (6)  | 1024-65535   | <Your_Public_IP>/32    | Allow  |
+| *      | All traffic | All      | All          | 0.0.0.0/0            | Deny   |</p>
+<p><strong>Watch Out:</strong> Creating the correct security group is not enough - you must <strong>associate it</strong> with the instance:
+1. Go to <strong>EC2 -&gt; Instances</strong>
+2. Select your honeypot instance
+3. Scroll to the <strong>Security</strong> tab
+4. Click <strong>Manage Security Groups</strong>
+5. Ensure your SG is added
+Note: AWS allows traffic if <strong>any</strong> associated SG allows it.</p>
+<p><strong>Watch Out:</strong> Creating the ACL is not enough — you must associate it with the subnet:
+1. Go to VPC → Network ACLs
+2. Select your honeypot ACL
+3. Click the “Subnet associations” tab
+4. Click Edit subnet associations
+5. Check the box for the subnet your honeypot EC2 instance is using
+6. Save your changes
+Note: NACLs apply at the subnet level and evaluate both inbound and outbound rules. The most specific (lowest rule number) is evaluated first. Be sure your allow rules come before the default deny.</p>
+<p><strong>What if your IP changes?</strong> If your public IP changes and you've restricted <code>port 12222</code> to your old IP, you'll lose SSH access. To fix this:
+1. Log into the AWS Console.
+2. Go to EC2 &gt; Security Groups.
+3. Find your honeypot's SG and edit the inbound rules.
+4. Update the Custom TCP rule for port <code>12222</code> to reflect <code>&lt;your new public IP&gt;</code> (use whatismyip.com to find it).</p>
+<hr />
+<h2 id="10-verify-status">10. Verify Status</h2>
+<p>Run the status script:
+<code>cd ~/install/dshield/bin</code>
+<code>./status.sh</code></p>
+<p>Look for messages like:</p>
+<pre><code>Submitted to DShield: N log(s) sent.
 All services running.
 </code></pre>
-<h3 id="step-9-monthly-maintenance">Step 9: Monthly Maintenance</h3>
-<pre><code class="language-bash">sudo apt update &amp;&amp; sudo apt upgrade -y
-sudo reboot
-cd ~/install/dshield/bin
-./update.sh
-</code></pre>
-<h3 id="step-10-view-logs-on-dshield">Step 10: View Logs on DShield</h3>
-<p>Visit: <a href="https://secure.dshield.org/myaccount.html">https://secure.dshield.org/myaccount.html</a></p>
-<p>You’ll find:
+<p>Reboot the server if there are any errors. Otherwise refer to https://github.com/DShield-ISC/dshield/blob/main/STATUSERRORS.md</p>
+<hr />
+<h2 id="11-maintenance">11. Maintenance</h2>
+<p>It’s a good idea to log in once a month to run <code>sudo apt update &amp;&amp; sudo apt upgrade -y</code>, followed by a <strong>system reboot</strong>. Running the <code>update.sh</code> script monthly is also recommended to ensure your honeypot stays current.
+<code>sudo apt update &amp;&amp; sudo apt upgrade -y</code>
+<code>sudo reboot</code>
+<code>cd ~/install/dshield/bin</code>
+<code>./update.sh</code></p>
+<hr />
+<h2 id="12-view-logs">12. View Logs</h2>
+<p>After some time, log into your DShield account ahd check:
 - SSH Logs
 - Web Logs
 - Firewall Events</p>
-<hr />
-<h2 id="youre-done">You're Done!</h2>
-<p>Your honeypot is now online and feeding data into ISC’s global threat map. You've helped contribute to public good in the infosec community and learned a lot in the process. 👏</p>
-<p>Check out <a href="https://matthewob5.medium.com/setting-up-a-dshield-honeypot-in-aws-2ca5f8a29d9">Matthew OB’s original guide</a> for visuals or troubleshooting.</p>
+<p>URL: https://secure.dshield.org/myaccount.html</p>
+<h2 id="done">Done</h2>
+<p>Your AWS-hosted DShield honeypot is now online and feeding threat data to the Internet Storm Center. You've also locked it down properly and added safety measures to avoid accidental lockouts.</p>
+<p>For screenshots and visuals, refer to <a href="https://matthewob5.medium.com/setting-up-a-dshield-honeypot-in-aws-2ca5f8a29d9">Matthew’s blog post.</a></p>
               
             </div>
           </div><footer>
