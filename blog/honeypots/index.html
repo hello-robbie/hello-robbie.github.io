@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    <link rel="canonical" href="https://hello-robbie.github.io/blog/honeypots/">
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>Why I Use Honeypots - Hello Robbie</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Hello Robbie</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../resume/">Resume</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li class="active">
+    <a href="./">Why I Use Honeypots</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../webpaths/">Web App Default Paths</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../../resume/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../webpaths/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#why-i-like-internet-storm-center-dshield-and-how-you-can-help-too">Why I Like Internet Storm Center &amp; DShield (and How You Can Help Too)</a></li>
+        <li class="first-level "><a href="#comprehensive-guide-setting-up-a-dshield-honeypot-on-aws-ubuntu-2204-lts">Comprehensive Guide: Setting Up a DShield Honeypot on AWS (Ubuntu 22.04 LTS)</a></li>
+            <li class="second-level"><a href="#what-is-dshield">What is DShield?</a></li>
+                
+            <li class="second-level"><a href="#requirements">Requirements</a></li>
+                
+            <li class="second-level"><a href="#step-1-launch-ec2-instance">Step 1: Launch EC2 Instance</a></li>
+                
+            <li class="second-level"><a href="#step-2-connect-update">Step 2: Connect &amp; Update</a></li>
+                
+            <li class="second-level"><a href="#step-3-create-honeypot-user-harden-sudo">Step 3: Create Honeypot User &amp; Harden Sudo</a></li>
+                
+            <li class="second-level"><a href="#step-4-install-dependencies">Step 4: Install Dependencies</a></li>
+                
+            <li class="second-level"><a href="#step-5-install-dshield">Step 5: Install DShield</a></li>
+                
+                <li class="third-level"><a href="#during-setup">During setup:</a></li>
+            <li class="second-level"><a href="#step-6-confirm-ssh-on-port-12222">Step 6: Confirm SSH on Port 12222</a></li>
+                
+            <li class="second-level"><a href="#step-7-configure-security-group">Step 7: Configure Security Group</a></li>
+                
+                <li class="third-level"><a href="#inbound-rules">Inbound Rules:</a></li>
+                <li class="third-level"><a href="#outbound-rules">Outbound Rules:</a></li>
+            <li class="second-level"><a href="#step-8-verify-operation">Step 8: Verify Operation</a></li>
+                
+            <li class="second-level"><a href="#step-9-monthly-maintenance">Step 9: Monthly Maintenance</a></li>
+                
+            <li class="second-level"><a href="#step-10-view-logs-on-dshield">Step 10: View Logs on DShield</a></li>
+                
+        <li class="first-level "><a href="#youre-done">You're Done!</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="why-i-like-internet-storm-center-dshield-and-how-you-can-help-too">Why I Like Internet Storm Center &amp; DShield (and How You Can Help Too)</h2>
+<p>I'm a big fan of the <strong>SANS Internet Storm Center (ISC)</strong> and its community-driven mission to track global internet threats. They publish daily handler diaries, offer practical incident response tools, and provide a platform where people like you and me can contribute valuable data. One of the most impactful ways to do that is by running a <strong>DShield Honeypot</strong>.</p>
+<p>DShield is a <strong>low-interaction honeypot</strong> that collects SSH, Telnet, and HTTP scan data. It’s lightweight, informative, and most importantly, it shares that telemetry with ISC to help map emerging threats. Setting one up on AWS is a great weekend project, especially if you're into networking, cloud, or cybersecurity.</p>
+<p>Below is a step-by-step guide I followed and adapted from <a href="https://matthewob5.medium.com/setting-up-a-dshield-honeypot-in-aws-2ca5f8a29d9">Matthew OB's post</a>.</p>
+<hr />
+<h2 id="comprehensive-guide-setting-up-a-dshield-honeypot-on-aws-ubuntu-2204-lts">Comprehensive Guide: Setting Up a DShield Honeypot on AWS (Ubuntu 22.04 LTS)</h2>
+<h3 id="what-is-dshield">What is DShield?</h3>
+<p><strong>DShield</strong> is a honeypot system built by ISC to collect logs from distributed sensors. It:</p>
+<ul>
+<li>Captures SSH/Telnet login attempts (via Cowrie)</li>
+<li>Records HTTP requests and firewall activity</li>
+<li>Sends anonymized logs to ISC</li>
+</ul>
+<h3 id="requirements">Requirements</h3>
+<ul>
+<li>AWS Free Tier account  </li>
+<li>DShield account: <a href="https://secure.dshield.org/myaccount.html">https://secure.dshield.org/myaccount.html</a>  </li>
+<li>SSH key pair  </li>
+<li>Basic Linux/terminal experience</li>
+</ul>
+<p><strong>Tips:</strong></p>
+<ul>
+<li>Enable MFA on AWS</li>
+<li>Use IAM users instead of root</li>
+<li>Set Free Tier alerts to avoid surprises</li>
+</ul>
+<h3 id="step-1-launch-ec2-instance">Step 1: Launch EC2 Instance</h3>
+<ol>
+<li>Go to EC2 → Launch Instance  </li>
+<li>Name: <code>DShieldHoneypot</code>  </li>
+<li>AMI: <strong>Ubuntu Server 22.04 LTS</strong> (not 24.04!)  </li>
+<li>Type: <code>t2.micro</code>  </li>
+<li>Key pair: Use or create <code>.pem</code> file  </li>
+<li>Storage: 25 GB  </li>
+<li>Security Group: Allow SSH (port 22) from <code>YOUR_PUBLIC_IP/32</code></li>
+</ol>
+<h3 id="step-2-connect-update">Step 2: Connect &amp; Update</h3>
+<pre><code class="language-bash">chmod 400 your-key.pem
+ssh -i your-key.pem ubuntu@&lt;EC2_PUBLIC_IP&gt;
+
+sudo apt update &amp;&amp; sudo apt upgrade -y
+sudo reboot
+</code></pre>
+<p>Reconnect after reboot.</p>
+<h3 id="step-3-create-honeypot-user-harden-sudo">Step 3: Create Honeypot User &amp; Harden Sudo</h3>
+<pre><code class="language-bash">sudo passwd ubuntu
+sudo adduser --disabled-password --gecos &quot;DShield Honeypot&quot; dshield
+sudo visudo /etc/sudoers.d/90-cloud-init-users
+</code></pre>
+<p>Change this line:</p>
+<pre><code class="language-text">ubuntu ALL=(ALL) NOPASSWD:ALL
+</code></pre>
+<p>To:</p>
+<pre><code class="language-text">ubuntu ALL=(ALL) ALL
+</code></pre>
+<h3 id="step-4-install-dependencies">Step 4: Install Dependencies</h3>
+<pre><code class="language-bash">sudo apt install python3-pip python2.7 git -y
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+sudo python2.7 get-pip.py
+sudo reboot
+</code></pre>
+<h3 id="step-5-install-dshield">Step 5: Install DShield</h3>
+<pre><code class="language-bash">mkdir ~/install &amp;&amp; cd ~/install
+git clone https://github.com/DShield-ISC/dshield.git
+cd dshield/bin
+sudo ./install.sh
+</code></pre>
+<h4 id="during-setup">During setup:</h4>
+<ul>
+<li>Accept privacy warnings</li>
+<li>Enable automatic updates</li>
+<li>Enter your DShield email + API key</li>
+<li>Interface: <code>eth0</code></li>
+<li>Admin Port: 12222 (default)</li>
+<li>Local Network: <code>172.16.0.0/12</code></li>
+<li>Ignore FW logs from your public IP</li>
+<li>Accept default SSL values</li>
+<li>Exclude ports: 2222, 2223, 8000</li>
+</ul>
+<h3 id="step-6-confirm-ssh-on-port-12222">Step 6: Confirm SSH on Port 12222</h3>
+<pre><code class="language-bash">sudo ss -tuln | grep 12222
+sudo systemctl restart ssh  # if not open
+sudo ss -tuln | grep 12222
+</code></pre>
+<p>Update your security group to allow TCP 12222 from your IP, then test:</p>
+<pre><code class="language-bash">ssh -p 12222 -i your-key.pem ubuntu@&lt;EC2_PUBLIC_IP&gt;
+</code></pre>
+<p>Once confirmed:</p>
+<pre><code class="language-bash">sudo reboot
+</code></pre>
+<h3 id="step-7-configure-security-group">Step 7: Configure Security Group</h3>
+<h4 id="inbound-rules">Inbound Rules:</h4>
+<table>
+<thead>
+<tr>
+<th>Port Range</th>
+<th>Protocol</th>
+<th>Source</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12222</td>
+<td>TCP</td>
+<td>YOUR_PUBLIC_IP/32</td>
+<td>SSH Management</td>
+</tr>
+<tr>
+<td>0-12221</td>
+<td>TCP/UDP</td>
+<td>0.0.0.0/0</td>
+<td>Honeypot Listeners</td>
+</tr>
+<tr>
+<td>12223-65535</td>
+<td>TCP/UDP</td>
+<td>0.0.0.0/0</td>
+<td>Honeypot Listeners</td>
+</tr>
+<tr>
+<td>All ICMP</td>
+<td>ICMP</td>
+<td>0.0.0.0/0</td>
+<td>Ping/Traceroute</td>
+</tr>
+</tbody>
+</table>
+<h4 id="outbound-rules">Outbound Rules:</h4>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Protocol</th>
+<th>Destination</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>All</td>
+<td>All</td>
+<td>0.0.0.0/0</td>
+<td>Allow all traffic</td>
+</tr>
+</tbody>
+</table>
+<p>Make sure the Security Group is associated with the instance, and apply NACLs if needed.</p>
+<h3 id="step-8-verify-operation">Step 8: Verify Operation</h3>
+<pre><code class="language-bash">cd ~/install/dshield/bin
+./status.sh
+</code></pre>
+<p>You should see:</p>
+<pre><code class="language-text">Submitted to DShield: N log(s) sent.
+All services running.
+</code></pre>
+<h3 id="step-9-monthly-maintenance">Step 9: Monthly Maintenance</h3>
+<pre><code class="language-bash">sudo apt update &amp;&amp; sudo apt upgrade -y
+sudo reboot
+cd ~/install/dshield/bin
+./update.sh
+</code></pre>
+<h3 id="step-10-view-logs-on-dshield">Step 10: View Logs on DShield</h3>
+<p>Visit: <a href="https://secure.dshield.org/myaccount.html">https://secure.dshield.org/myaccount.html</a></p>
+<p>You’ll find:
+- SSH Logs
+- Web Logs
+- Firewall Events</p>
+<hr />
+<h2 id="youre-done">You're Done!</h2>
+<p>Your honeypot is now online and feeding data into ISC’s global threat map. You've helped contribute to public good in the infosec community and learned a lot in the process. 👏</p>
+<p>Check out <a href="https://matthewob5.medium.com/setting-up-a-dshield-honeypot-in-aws-2ca5f8a29d9">Matthew OB’s original guide</a> for visuals or troubleshooting.</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>
