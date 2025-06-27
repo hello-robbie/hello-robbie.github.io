@@ -1,1 +1,12 @@
-site_name: My Docs
+site_name: Hello Robbie
+site_url: https://hello-robbie.github.io/
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Resume: resume.md
+  - Blog:
+      - Why I Use Honeypots: blog/honeypots.md
+      - Web App Default Paths: blog/webpaths.md
+
