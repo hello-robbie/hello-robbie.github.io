@@ -1,17 +1,15 @@
-# Welcome to MkDocs
+# Welcome to My Documentation Site
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Hey, I’m Robbie 👋
 
-## Commands
+This site is where I document tech experiments, cybersecurity walkthroughs, and general nerdy deep dives. Whether it’s building, reverse engineering, or trying something weird in a home lab — I break it down step-by-step so it's fun and easy to follow.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+You’re welcome to borrow, learn from, or remix anything you see here.
 
-## Project layout
+I use this space for:
+- 🛠 Guides for personal projects I’ve tackled
+- 🔍 Notes from CTFs and security exercises (mostly TryHackMe)
+- 🧠 Stuff I wanted to remember and thought you might too
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+Enjoy the docs. Stay curious.
+
