@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%209%20-%20Brr%20v2/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 9 - Brr v2 - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 9 - Brr v2";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 9 - Brr v2.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%209%20-%20Brr%20v2/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 9 - Brr v2</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-comprehensive-reconnaissance">Phase 1: Comprehensive Reconnaissance</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#11-port-scan-command">1.1 Port Scan Command</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#12-discovered-services">1.2 Discovered Services</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-gaining-access-to-the-hmi">Phase 2: Gaining Access to the HMI</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-login-success">2.1 Login Success</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#22-data-source-analysis">2.2 Data Source Analysis</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-3-exploitation-via-coil-manipulation">Phase 3: Exploitation via Coil Manipulation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31-confirming-the-toggle">3.1 Confirming the Toggle</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-4-retrieving-the-flag-from-holding-registers">Phase 4: Retrieving the Flag from Holding Registers</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#41-holding-register-dump">4.1 Holding Register Dump</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 9 - Brr v2</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-task-9-industrial-intrusion">ICS Security Assessment – Task 9: Industrial Intrusion</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The Virelia facility’s legacy tank-control system exhibited unauthorized valve toggling and inconsistent tank fill levels. After gaining access to the ScadaBR interface via default credentials, further investigation revealed a Modbus TCP data source configured to communicate with a PLC on port 5020. A writable coil labeled <code>test</code> was found and manipulated to trigger hidden control logic. A scan of holding registers subsequently revealed a plaintext flag embedded in Modbus memory.</p>
+<hr />
+<h2 id="phase-1-comprehensive-reconnaissance">Phase 1: Comprehensive Reconnaissance</h2>
+<p>A full port scan was conducted to uncover exposed services on the target system.</p>
+<h3 id="11-port-scan-command">1.1 Port Scan Command</h3>
+<pre><code class="language-bash">nmap -p- -T4 -v 10.10.181.88
+</code></pre>
+<h3 id="12-discovered-services">1.2 Discovered Services</h3>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Service</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22/tcp</td>
+<td>SSH</td>
+<td>Open, but unused in this assessment</td>
+</tr>
+<tr>
+<td>80/tcp</td>
+<td>HTTP</td>
+<td>No relevant content</td>
+</tr>
+<tr>
+<td>8080/tcp</td>
+<td>HTTP</td>
+<td>Hosted ScadaBR HMI system</td>
+</tr>
+<tr>
+<td>5020/tcp</td>
+<td>Modbus-like</td>
+<td>Used by PLC for Modbus TCP communications</td>
+</tr>
+<tr>
+<td>5901/tcp</td>
+<td>VNC</td>
+<td>Present, but not required for exploitation</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="phase-2-gaining-access-to-the-hmi">Phase 2: Gaining Access to the HMI</h2>
+<p>Accessing <code>http://10.10.181.88:8080</code> revealed a ScadaBR login page. The system was vulnerable to default credentials.</p>
+<h3 id="21-login-success">2.1 Login Success</h3>
+<ul>
+<li><strong>Username:</strong> <code>admin</code></li>
+<li><strong>Password:</strong> <code>admin</code></li>
+</ul>
+<p>This granted full administrative access to the ScadaBR environment.</p>
+<h3 id="22-data-source-analysis">2.2 Data Source Analysis</h3>
+<p>Under the "Data Sources" panel, a <code>Modbus IP</code> connection named <code>secret</code> was configured to poll a slave device on port <code>5020</code>, slave ID <code>1</code>. A single point named <code>test</code> was configured but disabled.</p>
+<hr />
+<h2 id="phase-3-exploitation-via-coil-manipulation">Phase 3: Exploitation via Coil Manipulation</h2>
+<p>The point <code>test</code> was modified to use <strong>Coil status</strong> with offset <code>0</code> and made settable. Once enabled, it was added to the Watch List and toggled from <code>0</code> to <code>1</code>, presumably activating back-end control logic.</p>
+<h3 id="31-confirming-the-toggle">3.1 Confirming the Toggle</h3>
+<pre><code class="language-plaintext">secret - test = 1
+</code></pre>
+<p>This change was reflected in the event history, confirming successful coil write via the GUI.</p>
+<hr />
+<h2 id="phase-4-retrieving-the-flag-from-holding-registers">Phase 4: Retrieving the Flag from Holding Registers</h2>
+<p>With the logic armed, a scan of the Modbus <strong>holding registers</strong> was performed using the ScadaBR interface.</p>
+<h3 id="41-holding-register-dump">4.1 Holding Register Dump</h3>
+<pre><code class="language-plaintext">0 ==&gt; 0054
+1 ==&gt; 0048
+2 ==&gt; 004D
+3 ==&gt; 007B
+4 ==&gt; 006D
+5 ==&gt; 006F
+6 ==&gt; 0064
+7 ==&gt; 0062
+8 ==&gt; 0075
+9 ==&gt; 0073
+10 ==&gt; 005F
+11 ==&gt; 0068
+12 ==&gt; 0069
+13 ==&gt; 0064
+14 ==&gt; 007D
+</code></pre>
+<p>These values translate from hex to ASCII as:</p>
+<pre><code class="language-plaintext">THM{modbus_hid}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>This assessment uncovered weak authentication practices, insecure Modbus coil exposure, and unsegmented ICS assets vulnerable to remote manipulation.</p>
+<p><strong>Flag Obtained:</strong>
+<strong><code>THM{modbus_hid}</code></strong></p>
+<p><strong>Recommendations:</strong></p>
+<ul>
+<li>Replace default HMI credentials and enforce strong password policies</li>
+<li>Implement network segmentation between ICS and corporate environments</li>
+<li>Restrict Modbus write permissions to authorized controllers</li>
+<li>Monitor and log all industrial protocol traffic for anomaly detection</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Task%208%20-%20Kaboom/" class="btn btn-neutral float-left" title="Task 8 - Kaboom"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Task%2010%20-%20Brr%20v1/" class="btn btn-neutral float-right" title="Task 10 - Brr v1">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Task%208%20-%20Kaboom/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Task%2010%20-%20Brr%20v1/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

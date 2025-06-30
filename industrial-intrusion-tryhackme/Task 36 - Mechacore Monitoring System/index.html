@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2036%20-%20Mechacore%20Monitoring%20System/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 36 - Mechacore Monitoring System - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 36 - Mechacore Monitoring System";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 36 - Mechacore Monitoring System.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%2036%20-%20Mechacore%20Monitoring%20System/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 36 - Mechacore Monitoring System</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-comprehensive-reconnaissance">Phase 1: Comprehensive Reconnaissance</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#11-port-scan-command">1.1 Port Scan Command</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#12-discovered-services">1.2 Discovered Services</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-manual-exploitation-attempts">Phase 2: Manual Exploitation Attempts</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-attempted-payload">2.1 Attempted Payload</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-3-automated-testing-with-sqlmap">Phase 3: Automated Testing with SQLMap</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31-standard-command">3.1 Standard Command</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#32-targeted-union-test">3.2 Targeted UNION Test</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-4-directory-brute-forcing">Phase 4: Directory Brute-Forcing</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#41-gobuster-command">4.1 Gobuster Command</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#42-discovered-paths">4.2 Discovered Paths</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-5-final-attempts-and-abandonment">Phase 5: Final Attempts and Abandonment</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 36 - Mechacore Monitoring System</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-mechacore-monitoring-system-writeup">ICS Security Assessment - Mechacore Monitoring System Writeup</h1>
+<p><strong>Task 36 – Mechacore Monitoring System</strong>
+<strong>Category: Web</strong></p>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This assessment targeted a Mechacore-branded industrial monitoring system that appeared visually identical to a previous vulnerable deployment. The initial goal was to bypass login and extract sensitive information, including the admin's password and an embedded flag. Although multiple SQL injection attempts and automation with sqlmap were conducted, the application proved highly resistant to traditional injection vectors. No successful authentication bypass was achieved during the engagement, but critical reconnaissance and methodology steps were recorded for future targeting or when paired with brute-force strategies.</p>
+<hr />
+<h2 id="phase-1-comprehensive-reconnaissance">Phase 1: Comprehensive Reconnaissance</h2>
+<p>The operation began with an Nmap scan to identify active services on the target.</p>
+<h3 id="11-port-scan-command">1.1 Port Scan Command</h3>
+<pre><code class="language-bash">nmap -sS -sV -p- 10.10.47.211
+</code></pre>
+<h3 id="12-discovered-services">1.2 Discovered Services</h3>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Service</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22/tcp</td>
+<td>SSH</td>
+<td>OpenSSH 7.6p1 Ubuntu</td>
+</tr>
+<tr>
+<td>80/tcp</td>
+<td>HTTP</td>
+<td>Apache 2.4.29 (Ubuntu), login page</td>
+</tr>
+</tbody>
+</table>
+<p>A visual inspection of the web interface showed a login form under <code>/login.php</code> with standard <code>user</code> and <code>pass</code> POST parameters. The form design, branding, and behavior strongly matched Task 35, where a SQL injection allowed for user injection with a crafted password hash.</p>
+<hr />
+<h2 id="phase-2-manual-exploitation-attempts">Phase 2: Manual Exploitation Attempts</h2>
+<p>Initial attacks mimicked the successful strategy from Task 35, which used a <code>UNION SELECT</code> statement to insert a fake admin user. These attempts failed to result in a successful login.</p>
+<h3 id="21-attempted-payload">2.1 Attempted Payload</h3>
+<pre><code class="language-sql">' UNION SELECT 1, 'admin', SHA2('hunter2', 256)-- -
+</code></pre>
+<p>Password used:</p>
+<pre><code>hunter2
+</code></pre>
+<p>Additional efforts included:</p>
+<ul>
+<li>Testing boolean-based SQL injection: <code>' OR 1=1--</code></li>
+<li>Discovering column count via <code>ORDER BY</code> up to 12</li>
+<li>Injecting <code>UNION SELECT NULL,...</code> combinations</li>
+<li>Attempting various reflected payloads for output verification</li>
+</ul>
+<p>No visible output was reflected, and no changes in login behavior occurred.</p>
+<hr />
+<h2 id="phase-3-automated-testing-with-sqlmap">Phase 3: Automated Testing with SQLMap</h2>
+<p>SQLMap was used extensively in multiple configurations.</p>
+<h3 id="31-standard-command">3.1 Standard Command</h3>
+<pre><code class="language-bash">sqlmap -u &quot;http://10.10.47.211/login.php&quot; --data=&quot;user=test&amp;pass=test&quot; --batch --level=5 --risk=3 --dump
+</code></pre>
+<p>This run identified redirections and attempted hundreds of techniques, including boolean-based blind and time-based blind SQLi, but found no injectable parameters.</p>
+<h3 id="32-targeted-union-test">3.2 Targeted UNION Test</h3>
+<pre><code class="language-bash">sqlmap -u &quot;http://10.10.47.211/login.php&quot; --data=&quot;user=test&amp;pass=test&quot; --batch --level=1 --risk=1 --technique=U
+</code></pre>
+<p>This faster test specifically attempted UNION-based injection but also failed to detect any injection points.</p>
+<hr />
+<h2 id="phase-4-directory-brute-forcing">Phase 4: Directory Brute-Forcing</h2>
+<p>To uncover additional attack surfaces, gobuster was used.</p>
+<h3 id="41-gobuster-command">4.1 Gobuster Command</h3>
+<pre><code class="language-bash">gobuster dir -u http://10.10.47.211 -w /usr/share/wordlists/dirb/common.txt -t 50
+</code></pre>
+<h3 id="42-discovered-paths">4.2 Discovered Paths</h3>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/index.php</td>
+<td>200</td>
+</tr>
+<tr>
+<td>/images/</td>
+<td>301</td>
+</tr>
+<tr>
+<td>/.htaccess</td>
+<td>403</td>
+</tr>
+<tr>
+<td>/.htpasswd</td>
+<td>403</td>
+</tr>
+<tr>
+<td>/server-status</td>
+<td>403</td>
+</tr>
+</tbody>
+</table>
+<p>No administrative or debug interfaces were uncovered. The only accessible page remained the login screen.</p>
+<hr />
+<h2 id="phase-5-final-attempts-and-abandonment">Phase 5: Final Attempts and Abandonment</h2>
+<p>After more than 90 minutes of testing, no successful SQL injection or credential bypass was found. Attempts were also made to inject visible strings (e.g., <code>' UNION SELECT 1, 'THM{injected}', ...</code>) to confirm output-based injection, but nothing was reflected in the interface.</p>
+<p>While the logic behind Task 35 was used to guide exploitation attempts, Task 36's implementation either included improved sanitization or routed login validation through non-SQL mechanisms.</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>This assessment did not result in successful access to the Mechacore Monitoring System. The login page was tested thoroughly for classic and advanced SQL injection vectors, but no exploitable inputs were identified. It’s possible that the application logic was restructured since Task 35 to reject crafted user injections and sanitize inputs more aggressively.</p>
+<p><strong>Recommendations for next steps:</strong></p>
+<ul>
+<li>Perform a password brute-force using tools like Hydra against the <code>/login.php</code> endpoint</li>
+<li>Re-run sqlmap using tamper scripts such as <code>--tamper=space2comment</code></li>
+<li>Consider fuzzing request headers or cookies for injection</li>
+<li>Monitor for session cookies post-login attempts and check for passive auth</li>
+</ul>
+<p>This target may still be vulnerable, but likely requires an approach beyond typical SQL injection or involves credentials not exposed through recon.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/" class="btn btn-neutral float-left" title="Task 35 - Uninterrupted Problem Supply"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

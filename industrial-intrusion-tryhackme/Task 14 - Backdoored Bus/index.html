@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2014%20-%20Backdoored%20Bus/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 14 - Backdoored Bus - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 14 - Backdoored Bus";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 14 - Backdoored Bus.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%2014%20-%20Backdoored%20Bus/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 14 - Backdoored Bus</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-container-analysis-and-extraction">Phase 1: Container Analysis and Extraction</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#11-file-inspection-commands">1.1 File Inspection Commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#12-image-launch-via-podman">1.2 Image Launch via Podman</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-dynamic-interaction-with-the-plc-server">Phase 2: Dynamic Interaction with the PLC Server</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-modbus-probing-script">2.1 Modbus Probing Script</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#probepy-initial-connectivity-check">probe.py – Initial Connectivity Check</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#full_scanpy-comprehensive-memory-space-sweep">full_scan.py – Comprehensive Memory Space Sweep</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-3-file-system-and-code-analysis">Phase 3: File System and Code Analysis</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31-extracting-source-code">3.1 Extracting Source Code</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#32-full-filesystem-search">3.2 Full Filesystem Search</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#observations">Observations:</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recommendations">Recommendations</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 14 - Backdoored Bus</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-task-4-backdoored-bus-writeup">ICS Security Assessment - Task 4 - Backdoored Bus Writeup</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This assessment focused on analyzing a Modbus-based ICS container provided as a <code>.tar</code> file. The container was designed to simulate a PLC, running a Python-based Modbus TCP server. Initial attempts to extract and analyze the container statically were unsuccessful in locating any embedded flags or control logic. As a result, the image was executed locally using Podman to enable dynamic probing of the server. Although we successfully connected and scanned the Modbus registers, no meaningful data or flag was found in any memory space. The flag for this challenge was <strong>not found</strong>.</p>
+<hr />
+<h2 id="phase-1-container-analysis-and-extraction">Phase 1: Container Analysis and Extraction</h2>
+<p>The challenge provided a file named <code>modbus-container-final-1750975076803.tar</code>. This file was extracted and parsed using standard container inspection tools.</p>
+<h3 id="11-file-inspection-commands">1.1 File Inspection Commands</h3>
+<pre><code class="language-bash">tar -xf modbus-container-final-1750975076803.tar
+jq '.[] | .Config' manifest.json
+jq '.config.Entrypoint, .config.Cmd' blobs/sha256/*.json
+</code></pre>
+<p>The command configuration pointed to the execution of <code>/app/plc_server.py</code>, but that file could not be found via static search through extracted layers.</p>
+<h3 id="12-image-launch-via-podman">1.2 Image Launch via Podman</h3>
+<p>To proceed with runtime analysis, Podman was installed and configured:</p>
+<pre><code class="language-bash">brew install podman
+podman machine init
+podman machine start
+podman load -i modbus-container-final-1750975076803.tar
+podman run -d -p 5020:502 modbus-container-final:latest
+</code></pre>
+<p>The container launched successfully and exposed Modbus TCP on port 5020.</p>
+<hr />
+<h2 id="phase-2-dynamic-interaction-with-the-plc-server">Phase 2: Dynamic Interaction with the PLC Server</h2>
+<p>With the server running, we used the <code>pymodbus</code> Python library to interact with it via Modbus TCP.</p>
+<h3 id="21-modbus-probing-script">2.1 Modbus Probing Script</h3>
+<p>The following scripts were created and executed:</p>
+<h4 id="probepy-initial-connectivity-check"><code>probe.py</code> – Initial Connectivity Check</h4>
+<pre><code class="language-python">from pymodbus.client import ModbusTcpClient
+
+client = ModbusTcpClient('127.0.0.1', port=5020)
+if client.connect():
+    print(&quot;[+] Connected to Modbus server&quot;)
+    result = client.read_holding_registers(address=0, count=10)
+    print(result.registers if not result.isError() else &quot;[-] Error reading registers&quot;)
+    client.close()
+else:
+    print(&quot;[-] Failed to connect&quot;)
+</code></pre>
+<p>This confirmed a successful connection and returned empty registers.</p>
+<h4 id="full_scanpy-comprehensive-memory-space-sweep"><code>full_scan.py</code> – Comprehensive Memory Space Sweep</h4>
+<pre><code class="language-python">from pymodbus.client import ModbusTcpClient
+
+client = ModbusTcpClient('127.0.0.1', port=5020)
+if not client.connect():
+    print(&quot;[-] Can't connect&quot;); exit(1)
+print(&quot;[+] Connected, scanning...&quot;)
+
+def scan(fn, name, max_addr=2000, block=100):
+    for base in range(0, max_addr, block):
+        result = fn(address=base, count=block)
+        if not result.isError():
+            values = getattr(result, 'registers', None) or getattr(result, 'bits', None)
+            if any(values):
+                print(f&quot;[!] Non-zero {name} @ {base}-{base+block-1}: {values}&quot;)
+
+scan(client.read_holding_registers,   &quot;HR&quot;)
+scan(client.read_input_registers,     &quot;IR&quot;)
+scan(client.read_coils,               &quot;COILS&quot;)
+scan(client.read_discrete_inputs,     &quot;DISCRETE&quot;)
+
+client.close()
+</code></pre>
+<p>All scanned memory spaces returned zeroed or empty data sets.</p>
+<hr />
+<h2 id="phase-3-file-system-and-code-analysis">Phase 3: File System and Code Analysis</h2>
+<p>To determine whether the container initialized any values or hid a flag elsewhere, we examined the running container and extracted its app directory.</p>
+<h3 id="31-extracting-source-code">3.1 Extracting Source Code</h3>
+<pre><code class="language-bash">podman cp &lt;container_id&gt;:/app/plc_server.py ./plc_server.py
+</code></pre>
+<p>The code revealed that the server was a simple Modbus implementation using <code>ModbusSequentialDataBlock</code> with 2000 registers initialized to zero:</p>
+<pre><code class="language-python">store = ModbusSlaveContext(
+    hr=ModbusSequentialDataBlock(0, [0]*2000),
+    zero_mode=True
+)
+</code></pre>
+<p>There was no logic present to populate any flag or non-zero value.</p>
+<h3 id="32-full-filesystem-search">3.2 Full Filesystem Search</h3>
+<p>The full container filesystem was exported and searched:</p>
+<pre><code class="language-bash">podman export &lt;container_id&gt; -o full.tar
+mkdir full_fs &amp;&amp; tar -xf full.tar -C full_fs
+grep -r &quot;THM{&quot; full_fs/
+</code></pre>
+<p>No flag or suspicious data was found.</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>Despite comprehensive inspection of the Modbus container—both statically and dynamically—no flag was found, and the memory space remained unpopulated. The container appears to simulate a Modbus server without serving a real CTF objective.</p>
+<h3 id="observations">Observations:</h3>
+<ul>
+<li>Modbus server was correctly implemented, but not interactive or preloaded with flag logic.</li>
+<li>No user authentication or protections were in place, but this was irrelevant given the absence of useful data.</li>
+<li>Significant time was spent managing container infrastructure which could have been simplified.</li>
+</ul>
+<p><strong>Final Status:</strong>
+<strong>❌ Flag Not Found</strong></p>
+<hr />
+<h2 id="recommendations">Recommendations</h2>
+<ul>
+<li><strong>Provide hosted environments</strong> (e.g., VMs or attackboxes) to avoid local container setup frustrations.</li>
+<li><strong>Seed containers with realistic data</strong> to support learning goals.</li>
+<li><strong>Simplify tooling expectations</strong> for ICS-focused challenges to make them more accessible to beginners.</li>
+<li><strong>Include documentation</strong> or hints when flag location is intentionally abstract or misleading.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Task%2013%20-%20Orcam/" class="btn btn-neutral float-left" title="Task 13 - Orcam"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Task%2015%20-%20Chess%20Industry/" class="btn btn-neutral float-right" title="Task 15 - Chess Industry">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Task%2013%20-%20Orcam/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Task%2015%20-%20Chess%20Industry/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

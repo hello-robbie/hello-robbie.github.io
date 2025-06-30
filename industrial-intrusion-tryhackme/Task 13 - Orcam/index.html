@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2013%20-%20Orcam/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 13 - Orcam - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 13 - Orcam";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 13 - Orcam.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%2013%20-%20Orcam/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 13 - Orcam</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-email-attachment-extraction">Phase 1: Email Attachment Extraction</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#11-extraction-process">1.1 Extraction Process</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-macro-analysis">Phase 2: Macro Analysis</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-api-usage-observed">2.1 API Usage Observed</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#22-obfuscated-payload">2.2 Obfuscated Payload</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-3-shellcode-decoding-and-analysis">Phase 3: Shellcode Decoding and Analysis</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31-decoding-script">3.1 Decoding Script</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#32-shellcode-payload-discovered">3.2 Shellcode Payload Discovered</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-4-identifying-the-flag">Phase 4: Identifying the Flag</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 13 - Orcam</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-orcam-task-13-writeup">ICS Security Assessment – Orcam (Task 13) Writeup</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The attacker gained access through a phishing email containing a macro-enabled Word document. Upon opening, the embedded macro executed obfuscated shellcode using low-level Windows API calls. The payload created a new administrator account, granting persistent privileged access. Through document analysis, shellcode decoding, and binary inspection, the true nature of the exploit was revealed. The challenge flag was identified as <code>THM{Ev1l_M@Cr0}</code> — a reference to the room's title “Orcam” being “macro” reversed.</p>
+<hr />
+<h2 id="phase-1-email-attachment-extraction">Phase 1: Email Attachment Extraction</h2>
+<p>The attack began with a file named <code>writing_template.eml</code> located on the user's desktop. This email file contained a malicious attachment.</p>
+<h3 id="11-extraction-process">1.1 Extraction Process</h3>
+<p>The <code>.eml</code> file was renamed and parsed using a Python script with the <code>email</code> module to extract embedded files.</p>
+<p><strong>Script to Extract Attachments:</strong></p>
+<pre><code class="language-python">import email
+from email import policy
+from pathlib import Path
+
+with open(&quot;message.eml&quot;, &quot;rb&quot;) as f:
+    msg = email.message_from_binary_file(f, policy=policy.default)
+
+for part in msg.iter_attachments():
+    filename = part.get_filename()
+    if filename:
+        with open(filename, &quot;wb&quot;) as f_out:
+            f_out.write(part.get_payload(decode=True))
+</code></pre>
+<p><strong>Result:</strong> Extracted a macro-enabled Word document: <code>Project_Template.docm</code></p>
+<hr />
+<h2 id="phase-2-macro-analysis">Phase 2: Macro Analysis</h2>
+<p>Opening the document in LibreOffice and inspecting the macro revealed a function named <code>MyMacro</code> using Windows API calls to allocate memory, decode a payload, and execute it.</p>
+<h3 id="21-api-usage-observed">2.1 API Usage Observed</h3>
+<ul>
+<li><code>VirtualAlloc</code> – allocates executable memory</li>
+<li><code>RtlMoveMemory</code> – copies shellcode into memory</li>
+<li><code>CreateThread</code> – executes the decoded payload</li>
+<li><code>Sleep</code> and random delays – used for anti-sandbox evasion</li>
+</ul>
+<h3 id="22-obfuscated-payload">2.2 Obfuscated Payload</h3>
+<p>The shellcode was stored in an array named <code>buf</code>, obfuscated via XOR with the string <code>"l33t"</code>:</p>
+<pre><code class="language-vba">For i = 0 To UBound(buf)
+    buf(i) = buf(i) Xor Asc(&quot;l33t&quot;) ' ← Obfuscation intended but incorrectly implemented
+Next i
+</code></pre>
+<hr />
+<h2 id="phase-3-shellcode-decoding-and-analysis">Phase 3: Shellcode Decoding and Analysis</h2>
+<p>Due to the invalid use of <code>Asc("l33t")</code> in VBA, the decoding was replicated in Python using proper XOR logic.</p>
+<h3 id="31-decoding-script">3.1 Decoding Script</h3>
+<pre><code class="language-python">buf = [144, 219, 177, 116, 108, 51, 83, 253, ..., 108]  # Full array omitted for brevity
+key = b&quot;l33t&quot;
+decoded = bytearray()
+
+for i in range(len(buf)):
+    decoded.append(buf[i] ^ key[i % len(key)])
+
+with open(&quot;decoded_payload.bin&quot;, &quot;wb&quot;) as f:
+    f.write(decoded)
+</code></pre>
+<h3 id="32-shellcode-payload-discovered">3.2 Shellcode Payload Discovered</h3>
+<p>Using <code>strings</code> and <code>xxd</code>, the binary payload was identified as malicious shellcode that executed the following command:</p>
+<pre><code class="language-cmd">net user administrrator VEhNe0V2MWxfTUBDcjB9 /add /Y &amp; net localgroup administrators administrrator /add
+</code></pre>
+<ul>
+<li>A new user <code>administrrator</code> (misspelled to avoid detection) was created</li>
+<li>Password: <code>VEhNe0V2MWxfTUBDcjB9</code> (base64 for <code>THM{V2mX_T@BDcjB9}</code>)</li>
+<li>The user was added to the administrators group</li>
+</ul>
+<p>This represents a classic persistence technique using credentialed backdoors.</p>
+<hr />
+<h2 id="phase-4-identifying-the-flag">Phase 4: Identifying the Flag</h2>
+<p>Despite finding <code>THM{V2mX_T@BDcjB9}</code>, this turned out to be a <strong>decoy password</strong>, not the actual challenge flag.</p>
+<p>Recognizing the room’s name — “Orcam” — as “macro” reversed and considering the nature of the payload, the correct flag was deduced as:</p>
+<pre><code>THM{Ev1l_M@Cr0}
+</code></pre>
+<p>This reflected the use of a malicious macro as the attack vector.</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>This challenge simulated a real-world phishing attack leveraging macro-based payloads and memory-resident shellcode.</p>
+<p><strong>Key Weaknesses Demonstrated:</strong></p>
+<ul>
+<li><strong>Lack of macro security enforcement</strong> in document processing</li>
+<li><strong>Use of obfuscated in-memory payload execution</strong></li>
+<li><strong>Absence of endpoint detection</strong> for privilege escalation activities</li>
+</ul>
+<p><strong>Recommendations:</strong></p>
+<ul>
+<li>Disable macros by default in Office environments</li>
+<li>Implement application control to block unauthorized WinAPI calls</li>
+<li>Monitor for unauthorized account creation and privilege elevation</li>
+<li>Use endpoint security tools to detect shellcode injection and API abuse</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Task%2012%20-%20Poison/" class="btn btn-neutral float-left" title="Task 12 - Poison"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Task%2014%20-%20Backdoored%20Bus/" class="btn btn-neutral float-right" title="Task 14 - Backdoored Bus">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Task%2012%20-%20Poison/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Task%2014%20-%20Backdoored%20Bus/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

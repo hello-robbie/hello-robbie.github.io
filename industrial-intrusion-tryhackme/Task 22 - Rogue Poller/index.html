@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2022%20-%20Rogue%20Poller/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 22 - Rogue Poller - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 22 - Rogue Poller";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 22 - Rogue Poller.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%2022%20-%20Rogue%20Poller/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 22 - Rogue Poller</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-packet-capture-analysis">Phase 1: Packet Capture Analysis</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#11-manual-inspection">1.1 Manual Inspection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#12-accelerated-discovery-via-pattern-search">1.2 Accelerated Discovery via Pattern Search</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-extracting-the-flag-from-modbus-traffic">Phase 2: Extracting the Flag from Modbus Traffic</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 22 - Rogue Poller</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-task-22-packet-capture-analysis">ICS Security Assessment - Task 22 Packet Capture Analysis</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The flag was identified by inspecting a packet capture (PCAP) file that contained Modbus communication traffic. Manual review revealed that the flag data was being transferred across several Modbus response packets. While the flag bytes first appeared in Packet 45, an even faster approach was discovered using a string search. The <code>CTRL+F</code> search for the <code>{</code> character in the packet bytes pane directed attention to Packet 48, allowing for streamlined extraction of the full flag.</p>
+<hr />
+<h2 id="phase-1-packet-capture-analysis">Phase 1: Packet Capture Analysis</h2>
+<p>The task provided a PCAP file containing approximately 130 packets. The objective was to identify any embedded flags or sensitive data hidden within industrial protocol communications.</p>
+<h3 id="11-manual-inspection">1.1 Manual Inspection</h3>
+<p>Due to the small number of packets, a manual inspection was conducted using Wireshark.</p>
+<ul>
+<li><strong>Packet 45</strong> showed Modbus TCP traffic, with the <strong>last two bytes</strong> of the packet payload containing the beginning of the flag: <code>TH</code></li>
+<li>Subsequent Modbus <strong>response packets</strong> continued revealing additional segments of the flag</li>
+</ul>
+<p>This sequential approach required manually reviewing each relevant packet.</p>
+<h3 id="12-accelerated-discovery-via-pattern-search">1.2 Accelerated Discovery via Pattern Search</h3>
+<p>A more efficient approach was discovered through Wireshark’s byte-level search functionality:</p>
+<ul>
+<li>Using <code>CTRL+F</code> to open the <strong>Find Packet</strong> dialog</li>
+<li>Searching for the string <code>{</code> within the <strong>Packet Bytes</strong> pane</li>
+<li>This immediately identified <strong>Packet 48</strong>, which contained the starting JSON-style structure of the full flag:</li>
+</ul>
+<p><code>json
+  THM{modbus_flag_extracted_from_response}</code></p>
+<p>This allowed for a quick pivot to the Modbus packets carrying the complete flag content.</p>
+<hr />
+<h2 id="phase-2-extracting-the-flag-from-modbus-traffic">Phase 2: Extracting the Flag from Modbus Traffic</h2>
+<p>Once the location of the flag was confirmed within the Modbus response packets, the full payload was assembled:</p>
+<ul>
+<li>The Modbus responses included sequential data bytes forming the flag</li>
+<li>Reassembling the fragments revealed the full flag:</li>
+</ul>
+<pre><code>THM{modbus_flag_extracted_from_response}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>This task highlighted a common technique in ICS packet capture analysis—extracting data embedded in response traffic from protocols like Modbus. While the flag could be identified manually, using search functions within Wireshark significantly accelerated the process.</p>
+<p><strong>Recommendations:</strong></p>
+<ul>
+<li>Use protocol-specific filters (e.g., <code>modbus</code>) and byte-level searches (<code>CTRL+F</code> in Wireshark) when analyzing PCAPs for CTF or forensic purposes</li>
+<li>Implement Modbus monitoring tools in real ICS environments to detect unusual payload patterns or unexpected data leakage</li>
+<li>Consider deep packet inspection (DPI) for industrial protocol traffic as part of ongoing ICS threat detection</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Task%2017%20-%20Klay/" class="btn btn-neutral float-left" title="Task 17 - Klay"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Task%2024%20-%20Auth/" class="btn btn-neutral float-right" title="Task 24 - Auth">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Task%2017%20-%20Klay/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Task%2024%20-%20Auth/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

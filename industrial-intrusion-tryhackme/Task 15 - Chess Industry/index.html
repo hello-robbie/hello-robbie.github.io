@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2015%20-%20Chess%20Industry/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 15 - Chess Industry - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 15 - Chess Industry";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 15 - Chess Industry.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%2015%20-%20Chess%20Industry/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 15 - Chess Industry</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-system-reconnaissance-and-misleading-indicators">Phase 1: System Reconnaissance and Misleading Indicators</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-pivoting-to-capability-based-escalation">Phase 2: Pivoting to Capability-Based Escalation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-verifying-capabilities">2.1 Verifying Capabilities</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-3-exploitation-via-python-uid-manipulation">Phase 3: Exploitation via Python UID Manipulation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31-exploit-command">3.1 Exploit Command</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#32-verification">3.2 Verification</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 15 - Chess Industry</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-privilege-escalation-via-suid-python-capabilities">ICS Security Assessment - Privilege Escalation via SUID Python Capabilities</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The system was compromised through abuse of Linux capabilities set on a local Python binary. While traditional cron-based escalation paths were explored extensively, the actual vulnerability stemmed from a misconfigured Python interpreter binary that had the <code>cap_setuid</code> capability enabled. This allowed any user to execute the binary and escalate privileges by setting the user ID to root (UID 0), effectively granting root shell access.</p>
+<hr />
+<h2 id="phase-1-system-reconnaissance-and-misleading-indicators">Phase 1: System Reconnaissance and Misleading Indicators</h2>
+<p>Initial reconnaissance included enumerating SUID binaries, cron jobs, and environment variables such as <code>PATH</code>. While several cron-based vectors appeared viable (including <code>/usr/libexec/dpkg/dpkg-db-backup</code>), attempts to hijack commands via <code>PATH</code> substitution failed due to lack of write permissions in expected execution directories and insufficient privilege to overwrite legitimate binaries.</p>
+<p>Despite creating fake binaries and manipulating the <code>PATH</code> to point to crafted scripts in user-writable directories, no root-level processes invoked them in practice.</p>
+<hr />
+<h2 id="phase-2-pivoting-to-capability-based-escalation">Phase 2: Pivoting to Capability-Based Escalation</h2>
+<p>After extensive testing of SUID binaries, cronjobs, and writable paths, a new strategy was considered based on <strong>Linux file capabilities</strong> — particularly <code>cap_setuid</code>.</p>
+<p>The key discovery was that a local <code>python</code> or <code>python3</code> binary on the system had <code>cap_setuid=ep</code> set, enabling it to change its process UID to root without requiring full SUID permission.</p>
+<h3 id="21-verifying-capabilities">2.1 Verifying Capabilities</h3>
+<pre><code class="language-bash">getcap -r / 2&gt;/dev/null
+</code></pre>
+<p>This command was used to scan the filesystem recursively for binaries with capabilities set.</p>
+<p>A critical finding was:</p>
+<pre><code class="language-bash">/usr/bin/python3.10 = cap_setuid+ep
+</code></pre>
+<hr />
+<h2 id="phase-3-exploitation-via-python-uid-manipulation">Phase 3: Exploitation via Python UID Manipulation</h2>
+<p>Once the Python binary with elevated capabilities was identified, a simple script was executed to escalate privileges by changing the UID of the running process to 0.</p>
+<h3 id="31-exploit-command">3.1 Exploit Command</h3>
+<pre><code class="language-bash">/usr/bin/python3.10 -c 'import os; os.setuid(0); os.system(&quot;/bin/bash&quot;)'
+</code></pre>
+<p>This launched a root shell directly.</p>
+<h3 id="32-verification">3.2 Verification</h3>
+<pre><code class="language-bash">whoami
+</code></pre>
+<p>Confirmed the user was now <code>root</code>.</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>This challenge highlighted a subtle but powerful privilege escalation method via Linux capabilities. While cron jobs and SUID binaries appeared promising, the actual vulnerability exploited a Python interpreter with the <code>cap_setuid</code> capability improperly enabled.</p>
+<p><strong>Key Findings:</strong></p>
+<ul>
+<li>Cron vectors were non-functional due to timing restrictions or insufficient privileges</li>
+<li>Environment variable manipulation was ineffective due to no root-owned binary calling user-controlled scripts</li>
+<li>Capability-based privilege escalation provided a reliable root shell</li>
+</ul>
+<p><strong>Recommendations:</strong></p>
+<ul>
+<li>Remove unnecessary capabilities from binaries using <code>setcap -r /path/to/binary</code></li>
+<li>Audit systems regularly for binaries with dangerous capabilities</li>
+<li>Replace full SUID binaries with least-privilege alternatives only when absolutely necessary</li>
+<li>Use AppArmor or SELinux to restrict execution context for interpreters</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Task%2014%20-%20Backdoored%20Bus/" class="btn btn-neutral float-left" title="Task 14 - Backdoored Bus"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Task%2016%20-%20Under%20Construction/" class="btn btn-neutral float-right" title="Task 16 - Under Construction">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Task%2014%20-%20Backdoored%20Bus/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Task%2016%20-%20Under%20Construction/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

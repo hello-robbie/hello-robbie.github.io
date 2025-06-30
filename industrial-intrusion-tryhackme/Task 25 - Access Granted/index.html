@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2025%20-%20Access%20Granted/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 25 - Access Granted - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 25 - Access Granted";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 25 - Access Granted.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%2025%20-%20Access%20Granted/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 25 - Access Granted</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-reconnaissance-and-binary-triage">Phase 1: Reconnaissance and Binary Triage</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#11-file-discovery-and-type-check">1.1 File Discovery and Type Check</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#12-function-and-string-analysis">1.2 Function and String Analysis</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-identifying-the-target-service">Phase 2: Identifying the Target Service</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-final-target-confirmation">2.1 Final Target Confirmation</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-3-exploitation-via-netcat">Phase 3: Exploitation via Netcat</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31-final-interaction">3.1 Final Interaction</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 25 - Access Granted</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-access-granted-writeup">ICS Security Assessment – Access Granted Writeup</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This assessment targeted a suspected compromised HMI login module accessible via a custom service running on a remote host. Reverse engineering of a provided ELF binary revealed a hardcoded password. Once the correct remote host and port were confirmed, a simple interactive TCP connection using this password bypassed the authentication gate and revealed the flag.</p>
+<hr />
+<h2 id="phase-1-reconnaissance-and-binary-triage">Phase 1: Reconnaissance and Binary Triage</h2>
+<p>Initial recon began with inspection of a provided file archive. A binary named <code>access_granted</code> was extracted from the ZIP and analyzed for functionality and potential embedded credentials.</p>
+<h3 id="11-file-discovery-and-type-check">1.1 File Discovery and Type Check</h3>
+<pre><code class="language-bash">unzip access_granted.zip -d access_granted
+cd access_granted
+file access_granted
+</code></pre>
+<p><strong>Result:</strong></p>
+<ul>
+<li>ELF 64-bit LSB shared object</li>
+<li>Dynamically linked</li>
+<li>Not stripped</li>
+</ul>
+<h3 id="12-function-and-string-analysis">1.2 Function and String Analysis</h3>
+<pre><code class="language-bash">strings access_granted | grep -i pass
+</code></pre>
+<pre><code class="language-bash">nm access_granted | grep main
+</code></pre>
+<p><strong>Key Finding:</strong>
+A hardcoded string <code>"industrial"</code> was discovered and referenced directly in the <code>main</code> function. This was likely the password used by the authentication routine.</p>
+<hr />
+<h2 id="phase-2-identifying-the-target-service">Phase 2: Identifying the Target Service</h2>
+<p>At first, attempts were made to connect to the service using the IP <code>10.10.221.220</code>. These yielded no output or response from <code>nc</code>, even when submitting the correct password.</p>
+<p>A re-check of the challenge information revealed the correct target IP was actually <code>10.10.211.124</code>.</p>
+<h3 id="21-final-target-confirmation">2.1 Final Target Confirmation</h3>
+<pre><code class="language-bash">nc 10.10.211.124 9009
+</code></pre>
+<p>Upon connection, the prompt <code>Enter the password :</code> was received.</p>
+<hr />
+<h2 id="phase-3-exploitation-via-netcat">Phase 3: Exploitation via Netcat</h2>
+<p>Using the hardcoded password found in the binary, a direct interactive connection to the correct target system was established and authenticated.</p>
+<h3 id="31-final-interaction">3.1 Final Interaction</h3>
+<pre><code class="language-bash">nc 10.10.211.124 9009
+</code></pre>
+<p><strong>Input:</strong></p>
+<pre><code>industrial
+</code></pre>
+<p><strong>Output:</strong></p>
+<pre><code>processing...Access Granted!
+THM{s0meth1ng_inthe_str1ng_she_knows}
+</code></pre>
+<p>The password was accepted, the gate was bypassed, and the flag was revealed.</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>This assessment demonstrated a successful binary reverse engineering and authentication bypass using static analysis of a local file and TCP interaction with a remote server.</p>
+<p><strong>Identified Weaknesses:</strong></p>
+<ul>
+<li>Hardcoded credentials in binary</li>
+<li>Lack of rate-limiting or input throttling</li>
+<li>No encryption or authentication handshake</li>
+</ul>
+<p><strong>Recommendations:</strong></p>
+<ul>
+<li>Avoid embedding plaintext credentials in compiled code</li>
+<li>Implement proper challenge-response authentication</li>
+<li>Log and rate-limit access attempts to TCP services</li>
+<li>Deploy binaries with symbol stripping and obfuscation</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Task%2024%20-%20Auth/" class="btn btn-neutral float-left" title="Task 24 - Auth"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Task%2028%20-%20Start/" class="btn btn-neutral float-right" title="Task 28 - Start">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Task%2024%20-%20Auth/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Task%2028%20-%20Start/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

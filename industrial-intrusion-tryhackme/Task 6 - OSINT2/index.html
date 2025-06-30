@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%206%20-%20OSINT2/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 6 - OSINT2 - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 6 - OSINT2";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 6 - OSINT2.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%206%20-%20OSINT2/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 6 - OSINT2</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-passive-reconnaissance-via-dns">Phase 1: Passive Reconnaissance via DNS</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#11-dns-txt-record-lookup">1.1 DNS TXT Record Lookup</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#12-discovered-txt-record">1.2 Discovered TXT Record</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-decoding-the-retrieved-payload">Phase 2: Decoding the Retrieved Payload</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-base64-decode-command">2.1 Base64 Decode Command</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#22-decoded-output">2.2 Decoded Output</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 6 - OSINT2</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-osint2-writeup">ICS Security Assessment - OSINT2 Writeup</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The challenge required discovering a hidden flag embedded within a DNS TXT record using OSINT techniques. By querying a specific domain with <code>dig</code>, we uncovered a base64-encoded string. Decoding the string revealed a JSON object containing the session and the final flag.</p>
+<hr />
+<h2 id="phase-1-passive-reconnaissance-via-dns">Phase 1: Passive Reconnaissance via DNS</h2>
+<p>The initial step involved gathering intelligence through a standard DNS query using either a terminal or an online DNS lookup tool.</p>
+<h3 id="11-dns-txt-record-lookup">1.1 DNS TXT Record Lookup</h3>
+<p>The target domain provided in the challenge was:</p>
+<pre><code>uplink-fallback.virelia-water.it.com
+</code></pre>
+<p>We performed a DNS TXT record query using the following command:</p>
+<pre><code class="language-bash">dig TXT uplink-fallback.virelia-water.it.com +short
+</code></pre>
+<p>Alternatively, the query can be done using Google’s online toolbox:</p>
+<pre><code>https://toolbox.googleapps.com/apps/dig/
+</code></pre>
+<h3 id="12-discovered-txt-record">1.2 Discovered TXT Record</h3>
+<p>The TXT record response returned a base64-encoded string:</p>
+<pre><code>&quot;eyJzZXNzaW9uIjoiVC1DTjEtMTcyIiwiZmxhZyI6IlRITXt1cGxpbmtfY2hhbm5lbF9jb25maXJtZWR9In0=&quot;
+</code></pre>
+<hr />
+<h2 id="phase-2-decoding-the-retrieved-payload">Phase 2: Decoding the Retrieved Payload</h2>
+<p>Once retrieved, the next step was to decode the base64 string to reveal its contents.</p>
+<h3 id="21-base64-decode-command">2.1 Base64 Decode Command</h3>
+<p>The string was decoded using the <code>base64</code> utility:</p>
+<pre><code class="language-bash">echo &quot;eyJzZXNzaW9uIjoiVC1DTjEtMTcyIiwiZmxhZyI6IlRITXt1cGxpbmtfY2hhbm5lbF9jb25maXJtZWR9In0=&quot; | base64 -d
+</code></pre>
+<h3 id="22-decoded-output">2.2 Decoded Output</h3>
+<p>The decoded JSON output was:</p>
+<pre><code class="language-json">{&quot;session&quot;:&quot;T-CN1-172&quot;,&quot;flag&quot;:&quot;THM{uplink_channel_confirmed}&quot;}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>This task demonstrated how DNS TXT records can be used as covert channels for data transfer or flag hiding.</p>
+<p><strong>Flag:</strong> <code>THM{uplink_channel_confirmed}</code></p>
+<p><strong>Recommendations:</strong></p>
+<ul>
+<li>Regularly monitor DNS traffic for anomalies such as TXT records containing suspicious base64 content.</li>
+<li>Employ DNS inspection tools to detect exfiltration channels via DNS.</li>
+<li>Educate blue teams on OSINT methods that can be abused in real-world scenarios.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Intro/" class="btn btn-neutral float-left" title="Intro"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Task%208%20-%20Kaboom/" class="btn btn-neutral float-right" title="Task 8 - Kaboom">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Intro/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Task%208%20-%20Kaboom/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

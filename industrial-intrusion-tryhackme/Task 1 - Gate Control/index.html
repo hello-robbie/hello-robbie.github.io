@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%201%20-%20Gate%20Control/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>ICS Security Assessment - Task 1: Gate Access Control Bypass - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "ICS Security Assessment - Task 1: Gate Access Control Bypass";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 1 - Gate Control.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%201%20-%20Gate%20Control/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">ICS Security Assessment - Task 1: Gate Access Control Bypass</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-task-1-gate-access-control-bypass">ICS Security Assessment - Task 1: Gate Access Control Bypass</h1>
+<p><strong>Flag Obtained:</strong> <code>THM{s4v3_th3_d4t3_27_jun3}</code></p>
+<hr />
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The system was compromised by identifying and exploiting an insecure Node-RED control interface exposed on port 1880. Through analysis of available dashboard components and Modbus write nodes, we discovered the control logic behind a gate access mechanism. After correcting a misconfigured Modbus Unit ID and properly triggering the required inputs through the HMI, the gate was successfully opened and the flag was retrieved.</p>
+<hr />
+<h2 id="phase-1-comprehensive-reconnaissance">Phase 1: Comprehensive Reconnaissance</h2>
+<p>A full reconnaissance scan was performed to enumerate exposed services and industrial protocols.</p>
+<h3 id="11-port-scan-commands">1.1 Port Scan Commands</h3>
+<pre><code class="language-bash">nmap -p- -T4 10.10.134.68
+nmap -sV -p 22,80,102,502,1880,8080,44818 10.10.134.68
+</code></pre>
+<h3 id="12-discovered-services">1.2 Discovered Services</h3>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Service</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22/tcp</td>
+<td>SSH</td>
+<td>OpenSSH 9.6p1</td>
+</tr>
+<tr>
+<td>80/tcp</td>
+<td>HTTP</td>
+<td>Werkzeug Flask app serving gate status monitor</td>
+</tr>
+<tr>
+<td>102/tcp</td>
+<td>ISO-TSAP</td>
+<td>Siemens S7 protocol</td>
+</tr>
+<tr>
+<td>502/tcp</td>
+<td>Modbus</td>
+<td>Modbus/TCP, standard ICS protocol</td>
+</tr>
+<tr>
+<td>1880/tcp</td>
+<td>HTTP (Node-RED)</td>
+<td>Web-based ICS control editor &amp; dashboard</td>
+</tr>
+<tr>
+<td>8080/tcp</td>
+<td>HTTP (Flask)</td>
+<td>OpenPLC login page</td>
+</tr>
+<tr>
+<td>44818/tcp</td>
+<td>EtherNet/IP</td>
+<td>Rockwell PLC communication port</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="phase-2-analyzing-the-control-logic">Phase 2: Analyzing the Control Logic</h2>
+<p>Node-RED was discovered running on port 1880. Direct access to both the flow editor and UI dashboard was possible, revealing how the gate was controlled.</p>
+<h3 id="21-discovery-of-node-red-interface">2.1 Discovery of Node-RED Interface</h3>
+<pre><code class="language-bash">curl http://10.10.134.68:1880
+</code></pre>
+<p>This confirmed the editor was exposed. Knowledge of Node-RED dashboards led to manual exploration of:</p>
+<pre><code class="language-bash">http://10.10.134.68:1880/ui
+</code></pre>
+<h3 id="22-control-logic-summary">2.2 Control Logic Summary</h3>
+<ul>
+<li><code>Badge</code> and <code>Motion Detector</code> switches controlled logic via coils <code>15</code> and <code>other</code>.</li>
+<li>An inject node (<code>badge (on)</code>) sent a <code>true</code> signal to a Modbus Write node targeting <strong>coil 25</strong> with function code 5 (Force Single Coil).</li>
+<li>The write initially failed due to <strong>Unit ID misconfiguration (1 instead of 0)</strong>.</li>
+</ul>
+<hr />
+<h2 id="phase-3-exploitation-via-hmi-and-node-red">Phase 3: Exploitation via HMI and Node-RED</h2>
+<p>With all logic mapped, we proceeded to exploit the system via the web dashboard and control flow editor.</p>
+<h3 id="31-fixed-modbus-write-configuration">3.1 Fixed Modbus Write Configuration</h3>
+<p>Manually edited the Modbus Write node to change Unit ID:</p>
+<p><strong>Before:</strong></p>
+<pre><code>Unit ID: 1
+</code></pre>
+<p><strong>After:</strong></p>
+<pre><code>Unit ID: 0
+</code></pre>
+<h3 id="32-triggered-input-conditions">3.2 Triggered Input Conditions</h3>
+<p>Performed the following:</p>
+<ol>
+<li>Accessed:
+   <code>http://10.10.134.68:1880/ui</code></li>
+<li>Switched on:
+   <code>Badge</code> and <code>Motion Detector</code></li>
+<li>In Node-RED editor, triggered:
+   <code>badge (on)</code> inject node to send <code>true</code> to coil 25</li>
+<li>Verified gate status via API:</li>
+</ol>
+<pre><code class="language-bash">curl http://10.10.134.68/api/gate
+</code></pre>
+<h3 id="33-result">3.3 Result</h3>
+<pre><code class="language-json">{
+  &quot;flag&quot;: &quot;THM{s4v3_th3_d4t3_27_jun3}&quot;,
+  &quot;status&quot;: &quot;Gate OPENED&quot;
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>This challenge highlighted common ICS security flaws:</p>
+<table>
+<thead>
+<tr>
+<th>Weakness</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Insecure access to Node-RED editor</td>
+<td>Full control logic visibility &amp; interaction</td>
+</tr>
+<tr>
+<td>Unauthenticated dashboard access</td>
+<td>Allowed toggling live control inputs</td>
+</tr>
+<tr>
+<td>Misconfigured Modbus Unit ID</td>
+<td>Initially prevented successful write</td>
+</tr>
+<tr>
+<td>Lack of role-based access to PLC logic</td>
+<td>Allowed unrestricted external control</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="recommendations">Recommendations</h3>
+<ul>
+<li>Enforce authentication on all Node-RED interfaces (editor and dashboard)</li>
+<li>Restrict Modbus traffic and require access controls per coil</li>
+<li>Remove unused services and harden PLC communication</li>
+<li>Log and alert on unauthorized Modbus function code usage</li>
+<li>Segment OT network from general-purpose user subnets</li>
+</ul>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

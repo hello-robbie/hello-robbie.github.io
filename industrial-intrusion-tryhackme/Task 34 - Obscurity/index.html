@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2034%20-%20Obscurity/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>ICS Security Assessment - Task 9: Deploy the Contract - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "ICS Security Assessment - Task 9: Deploy the Contract";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 34 - Obscurity.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%2034%20-%20Obscurity/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2035%20-%20Uninterrupted%20Problem%20Supply/">Task 35 - Uninterrupted Problem Supply</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">ICS Security Assessment - Task 9: Deploy the Contract</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-task-9-deploy-the-contract">ICS Security Assessment - Task 9: Deploy the Contract</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This task involved deploying a smart contract to an Ethereum-compatible blockchain via direct interaction with a specified contract address. Repeated attempts to execute the <code>deploy()</code> function through Python's Web3 interface failed due to a broken Python environment and persistent issues importing the <code>geth_poa_middleware</code> from the Web3 library.</p>
+<hr />
+<h2 id="phase-1-environment-setup-and-connection">Phase 1: Environment Setup and Connection</h2>
+<p>We started by configuring a Python virtual environment and attempting to install <code>web3&gt;=6,&lt;8</code> as instructed by the task.</p>
+<h3 id="11-initial-script-and-setup">1.1 Initial Script and Setup</h3>
+<pre><code class="language-python">from web3 import Web3
+from web3.middleware.poa import geth_poa_middleware
+
+w3 = Web3(Web3.HTTPProvider(&quot;http://10.10.218.143:8545&quot;))
+w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+w3.eth.default_account = w3.eth.accounts[0]
+
+challenge_address = Web3.to_checksum_address(&quot;0x24d14f3bc476b1cbeac2dc33b4feede614d9728f&quot;)
+tx = {
+    &quot;to&quot;: challenge_address,
+    &quot;data&quot;: &quot;0x775c300c&quot;,
+    &quot;gas&quot;: 300000
+}
+
+tx_hash = w3.eth.send_transaction(tx)
+receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+print(&quot;Transaction complete:&quot;, receipt)
+</code></pre>
+<h3 id="12-connection-confirmation">1.2 Connection Confirmation</h3>
+<p>We successfully confirmed connectivity to the target RPC node at <code>http://10.10.218.143:8545</code>.</p>
+<hr />
+<h2 id="phase-2-middleware-import-failures">Phase 2: Middleware Import Failures</h2>
+<h3 id="21-problem">2.1 Problem</h3>
+<p>Attempts to import the <code>geth_poa_middleware</code> failed with:</p>
+<pre><code>ModuleNotFoundError: No module named 'web3.middleware.poa'
+</code></pre>
+<h3 id="22-troubleshooting-steps">2.2 Troubleshooting Steps</h3>
+<ul>
+<li>Verified Web3 version (<code>7.12.0</code>)</li>
+<li>
+<p>Attempted multiple import paths:</p>
+</li>
+<li>
+<p><code>from web3.middleware.poa import geth_poa_middleware</code> (v5 syntax)</p>
+</li>
+<li><code>from web3.middleware.geth_poa import geth_poa_middleware</code> (not valid in v7)</li>
+<li><code>from web3.middleware import geth_poa_middleware</code> (recommended for v6+)</li>
+<li>Each approach failed with either <code>ModuleNotFoundError</code> or <code>ImportError</code>.</li>
+</ul>
+<h3 id="23-root-cause">2.3 Root Cause</h3>
+<p>Although the virtual environment (<code>w3env</code>) was activated, Python continued resolving imports from the global <code>dist-packages</code> path (<code>/usr/local/lib/python3.8/dist-packages</code>). This caused conflicts and potentially bypassed the installed Web3 version inside the venv.</p>
+<hr />
+<h2 id="phase-3-attempted-remediation">Phase 3: Attempted Remediation</h2>
+<h3 id="31-steps-taken">3.1 Steps Taken</h3>
+<ul>
+<li>Uninstalled and reinstalled Web3 (<code>7.12.0</code>) inside the virtual environment.</li>
+<li>Purged pip cache to ensure clean install.</li>
+<li>Confirmed the environment was active before running the script.</li>
+</ul>
+<h3 id="32-outcome">3.2 Outcome</h3>
+<p>The environment remained broken. Imports continued to fail despite a correct Web3 version, indicating a path resolution issue or broken Python site configuration.</p>
+<hr />
+<h2 id="outcome">Outcome</h2>
+<p><strong>The task could not be completed</strong> due to unresolved environment issues. The <code>deploy()</code> function could not be invoked successfully.</p>
+<p><strong>Flag: Not Found</strong></p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>This task was blocked by a misconfigured Python environment that prevented use of <code>geth_poa_middleware</code>, a required middleware for Proof-of-Authority chains. Despite installing the correct library version and isolating it in a virtual environment, global packages continued to interfere.</p>
+<hr />
+<h2 id="recommendations">Recommendations</h2>
+<ul>
+<li><strong>Rebuild the virtual environment</strong> entirely with <code>python3 -m venv ~/w3env</code> and reinstall only required packages inside it.</li>
+<li><strong>Avoid system-wide Python paths</strong> by ensuring the shebang (<code>#!/usr/bin/env python3</code>) and virtualenv activation are used properly.</li>
+<li><strong>Verify middleware location</strong> by inspecting <code>web3.middleware.__init__.py</code> and reviewing the official Web3.py documentation.</li>
+<li>Consider using a <strong>Docker container</strong> or clean VM for isolated testing environments in CTF contexts.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

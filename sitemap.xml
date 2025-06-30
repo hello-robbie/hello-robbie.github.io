@@ -2,18 +2,114 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://hello-robbie.github.io/</loc>
-         <lastmod>2025-06-27</lastmod>
+         <lastmod>2025-06-30</lastmod>
     </url>
     <url>
          <loc>https://hello-robbie.github.io/resume/</loc>
-         <lastmod>2025-06-27</lastmod>
+         <lastmod>2025-06-30</lastmod>
     </url>
     <url>
          <loc>https://hello-robbie.github.io/blog/honeypots/</loc>
-         <lastmod>2025-06-27</lastmod>
+         <lastmod>2025-06-30</lastmod>
     </url>
     <url>
          <loc>https://hello-robbie.github.io/blog/webpaths/</loc>
-         <lastmod>2025-06-27</lastmod>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Intro/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%201%20-%20Gate%20Control/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2010%20-%20Brr%20v1/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2012%20-%20Poison/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2013%20-%20Orcam/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2014%20-%20Backdoored%20Bus/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2015%20-%20Chess%20Industry/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2016%20-%20Under%20Construction/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2017%20-%20Klay/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2022%20-%20Rogue%20Poller/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2024%20-%20Auth/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2025%20-%20Access%20Granted/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2028%20-%20Start/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2029%20-%20Industrial/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2033%20-%20IndustrialChain/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2034%20-%20Obscurity/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2035%20-%20Uninterrupted%20Problem%20Supply/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2036%20-%20Mechacore%20Monitoring%20System/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%206%20-%20OSINT2/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%208%20-%20Kaboom/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%209%20-%20Brr%20v2/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/zTask%2019%20-%20No%20Salt%20No%20Shame/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/zTask%2020%20-%20Echoed%20Streams/</loc>
+         <lastmod>2025-06-30</lastmod>
+    </url>
+    <url>
+         <loc>https://hello-robbie.github.io/industrial-intrusion-tryhackme/zTask%2023%20-%20Register%20Sweet/</loc>
+         <lastmod>2025-06-30</lastmod>
     </url>
 </urlset>

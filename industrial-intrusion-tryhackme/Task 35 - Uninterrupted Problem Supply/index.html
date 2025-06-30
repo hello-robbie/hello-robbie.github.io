@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://hello-robbie.github.io/industrial-intrusion-tryhackme/Task%2035%20-%20Uninterrupted%20Problem%20Supply/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 35 - Uninterrupted Problem Supply - Hello Robbie</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 35 - Uninterrupted Problem Supply";
+        var mkdocs_page_input_path = "industrial-intrusion-tryhackme/Task 35 - Uninterrupted Problem Supply.md";
+        var mkdocs_page_url = "/industrial-intrusion-tryhackme/Task%2035%20-%20Uninterrupted%20Problem%20Supply/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Hello Robbie
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resume/">Resume</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Blog</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/honeypots/">Why I Use Honeypots</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../blog/webpaths/">Web App Default Paths</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Industrial Intrusion - TryHackMe CTF</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%206%20-%20OSINT2/">Task 6 - OSINT2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%208%20-%20Kaboom/">Task 8 - Kaboom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%209%20-%20Brr%20v2/">Task 9 - Brr v2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2010%20-%20Brr%20v1/">Task 10 - Brr v1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2012%20-%20Poison/">Task 12 - Poison</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2013%20-%20Orcam/">Task 13 - Orcam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2014%20-%20Backdoored%20Bus/">Task 14 - Backdoored Bus</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2015%20-%20Chess%20Industry/">Task 15 - Chess Industry</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2016%20-%20Under%20Construction/">Task 16 - Under Construction</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2017%20-%20Klay/">Task 17 - Klay</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2022%20-%20Rogue%20Poller/">Task 22 - Rogue Poller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2024%20-%20Auth/">Task 24 - Auth</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2025%20-%20Access%20Granted/">Task 25 - Access Granted</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2028%20-%20Start/">Task 28 - Start</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2029%20-%20Industrial/">Task 29 - Industrial</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2033%20-%20IndustrialChain/">Task 33 - Industrial Chain</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Task 35 - Uninterrupted Problem Supply</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#executive-summary">Executive Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-1-reconnaissance">Phase 1: Reconnaissance</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#11-port-scan">1.1 Port Scan</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-2-vulnerability-analysis">Phase 2: Vulnerability Analysis</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-sql-injection-confirmation">2.1 SQL Injection Confirmation</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phase-3-exploitation-sql-based-auth-bypass-via-union-injection">Phase 3: Exploitation – SQL-Based Auth Bypass via Union Injection</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31-authentication-flow-assumption">3.1 Authentication Flow Assumption</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#32-final-payload-for-manual-login-bypass">3.2 Final Payload for Manual Login Bypass</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#33-result">3.3 Result</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recommendations">Recommendations</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Task%2036%20-%20Mechacore%20Monitoring%20System/">Task 36 - Mechacore Monitoring System</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Hello Robbie</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Industrial Intrusion - TryHackMe CTF</li>
+      <li class="breadcrumb-item active">Task 35 - Uninterrupted Problem Supply</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ics-security-assessment-uninterrupted-problem-supply">ICS Security Assessment – Uninterrupted Problem Supply</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The system's login mechanism was compromised through an SQL injection vulnerability in the username field of a Flask-based web interface. Initial attempts to bypass authentication or crack the admin password were unsuccessful due to server-side password validation logic. By analyzing how the backend likely handled user authentication, a successful login was achieved by injecting a valid user record with a known password hash into the query. This allowed full administrative access and exposure of the system flag.</p>
+<hr />
+<h2 id="phase-1-reconnaissance">Phase 1: Reconnaissance</h2>
+<h3 id="11-port-scan">1.1 Port Scan</h3>
+<p>An Nmap scan revealed the following services:</p>
+<pre><code class="language-bash">nmap -sC -sV -Pn -p- 10.10.53.171
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Service</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22</td>
+<td>SSH</td>
+<td>OpenSSH 9.6p1 on Ubuntu</td>
+</tr>
+<tr>
+<td>80</td>
+<td>HTTP</td>
+<td>Werkzeug/3.1.3 Python/3.11.13 Flask App</td>
+</tr>
+</tbody>
+</table>
+<p>The web service on port 80 hosted a <code>/login</code> route with a simple form-based authentication system.</p>
+<hr />
+<h2 id="phase-2-vulnerability-analysis">Phase 2: Vulnerability Analysis</h2>
+<h3 id="21-sql-injection-confirmation">2.1 SQL Injection Confirmation</h3>
+<p>Manual testing revealed that the <code>username</code> field was vulnerable to SQL injection. Using <code>sqlmap</code>, it was confirmed that error-based and time-based injection was possible:</p>
+<pre><code class="language-bash">sqlmap -u &quot;http://10.10.53.171/login&quot; --data=&quot;username=admin&amp;password=admin&quot; --batch
+</code></pre>
+<p>The database <code>industrial_system</code> was discovered, and the <code>users</code> table contained a single user:</p>
+<table>
+<thead>
+<tr>
+<th>Username</th>
+<th>Password (SHA-256)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>admin</td>
+<td>6a9790ec070cf62edb10aa335bfd4c8f18b532126eea4dd9fe363423b4c73a8a</td>
+</tr>
+</tbody>
+</table>
+<p>Attempts to crack the password hash using <code>rockyou.txt</code> with Hashcat were unsuccessful.</p>
+<hr />
+<h2 id="phase-3-exploitation-sql-based-auth-bypass-via-union-injection">Phase 3: Exploitation – SQL-Based Auth Bypass via Union Injection</h2>
+<h3 id="31-authentication-flow-assumption">3.1 Authentication Flow Assumption</h3>
+<p>It was assumed the backend logic:</p>
+<ol>
+<li>Queried the database for a user by <code>username</code></li>
+<li>Then checked whether the password hash matched in application code (Python)</li>
+</ol>
+<p>As a result, traditional SQL injection bypasses (<code>OR 1=1</code>) would not succeed.</p>
+<h3 id="32-final-payload-for-manual-login-bypass">3.2 Final Payload for Manual Login Bypass</h3>
+<p>Instead, the injection was used to inject a valid user row inline, with a known password hash. The following was used:</p>
+<p><strong>Login Credentials:</strong></p>
+<ul>
+<li><strong>Username:</strong> <code>' UNION SELECT 1, 'admin', SHA2('hunter2', 256)-- -</code></li>
+<li><strong>Password:</strong> <code>hunter2</code></li>
+</ul>
+<p>This injected a fake user row where the SHA-256 of <code>hunter2</code> matched the backend's password check.</p>
+<h3 id="33-result">3.3 Result</h3>
+<p>The backend accepted the injected row, authenticated successfully, and redirected the user to the logged-in section of the app where the flag was displayed.</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>The assessment demonstrated a critical authentication bypass due to:</p>
+<ul>
+<li>A SQL injection vulnerability in the login form</li>
+<li>Backend logic that performed password validation after SQL query execution</li>
+<li>No input sanitization or prepared statements</li>
+</ul>
+<p><strong>Flag Obtained:</strong>
+<code>THM{energy_backup_systems_compromised}</code></p>
+<hr />
+<h2 id="recommendations">Recommendations</h2>
+<ul>
+<li>Implement input sanitization and prepared statements to prevent SQL injection</li>
+<li>Hash comparison and user lookup should occur entirely in SQL, not partially in application logic</li>
+<li>Avoid displaying application errors that reveal DBMS behavior or logic structure</li>
+<li>Log failed login attempts with anomaly detection for injection patterns</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Task%2033%20-%20IndustrialChain/" class="btn btn-neutral float-left" title="Task 33 - Industrial Chain"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Task%2036%20-%20Mechacore%20Monitoring%20System/" class="btn btn-neutral float-right" title="Task 36 - Mechacore Monitoring System">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Task%2033%20-%20IndustrialChain/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Task%2036%20-%20Mechacore%20Monitoring%20System/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
